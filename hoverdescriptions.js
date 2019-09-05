@@ -1,3 +1,3 @@
 let firstProjectAnchor = document.getElementById("firstproject");
 
-firstProjectAnchor.addEventListener("mouseover");
+firstProjectAnchor.addEventListener("mouseover", alert("hover"));

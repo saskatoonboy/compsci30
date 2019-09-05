@@ -57,7 +57,7 @@ li a:hover:not(.active) {
 
 }
 
-.navbar {
+#navbar {
     list-style-type: none;
     margin: 0px;
     padding: 0px;

@@ -68,3 +68,12 @@ li a:hover:not(.active) {
     background-color: #a0984d;
     width: 25%;
 }
+
+.content {
+
+    margin-left:25%;
+    padding:1px 16px;
+
+    /* formating to make sure the main content and the nav bar do not overlap */
+
+}

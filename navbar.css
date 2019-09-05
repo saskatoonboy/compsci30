@@ -8,7 +8,7 @@ body {
 
     margin: 0px;
     font-family: "Courier New", monospace;
-    background-color: #b4b960;
+    background-color: #e3e3e3;
     height: 2500px
 
     /* set the font, background color and remove the magin so that the nav bar is touching the side of the window */
@@ -31,20 +31,10 @@ li a {
 
 li a.active {
 
-    background-color: #7a1e17;
+    background-color: #878787;
     color: #fff;
 
     /* change the colors of an active item in a nav bar */
-
-}
-
-li a.section {
-
-    font-size: 1em;
-    height: 25px;
-    margin-left: 25px;
-
-    /* format selection items to be smaller and indented compaired to page items in the nav bar */
 
 }
 
@@ -65,7 +55,7 @@ li a:hover:not(.active) {
     position: fixed;
     overflow: auto;
     height: 100%;
-    background-color: #a0984d;
+    background-color: #b3b3b3;
     width: 25%;
 }
 

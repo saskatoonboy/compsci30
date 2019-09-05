@@ -1,0 +1,70 @@
+h1 {
+
+    text-align: center; /* Titles are centred on the screen */
+
+}
+
+body {
+
+    margin: 0px;
+    font-family: "Courier New", monospace;
+    background-color: #b4b960;
+    height: 2500px
+
+    /* set the font, background color and remove the magin so that the nav bar is touching the side of the window */
+
+}
+
+li a {
+
+    display: block;
+    color: #fff;
+    width: 100%;
+    height: 50px;
+    font-size: 2em;
+    text-align: center;
+    text-decoration: none;
+
+    /* format list items with anchors to fit in a vertical nav bar */
+
+}
+
+li a.active {
+
+    background-color: #7a1e17;
+    color: #fff;
+
+    /* change the colors of an active item in a nav bar */
+
+}
+
+li a.section {
+
+    font-size: 1em;
+    height: 25px;
+    margin-left: 25px;
+
+    /* format selection items to be smaller and indented compaired to page items in the nav bar */
+
+}
+
+li a:hover:not(.active) {
+
+    background-color: #aa897d;
+    color: #fff;
+
+    /* when hovering over a list item with and anchor that is not of the active class then format the colors */
+
+}
+
+.navbar {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    position: fixed;
+    overflow: auto;
+    height: 100%;
+    background-color: #a0984d;
+    width: 25%;
+}

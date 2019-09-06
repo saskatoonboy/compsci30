@@ -1,9 +1,10 @@
 let description = document.getElementById("description");
 let firstProjectAnchor = document.getElementById("firstProjectAnchor");
+let secondProjectAnchor = document.getElementById("secondProjectAnchor");
 
-function setText()
+function setText(msg)
 {
-    description.innerHTML = "hi";
+    description.innerHTML = msg;
 };
 
 function resetText()
@@ -11,5 +12,12 @@ function resetText()
     description.innerHTML = "";
 };
 
-firstProjectAnchor.addEventListener("mouseover", setText);
+firstProjectAnchor.addEventListener("mouseover", function(){
+    setText("My First Project");
+});
 firstProjectAnchor.addEventListener("mouseout", resetText);
+
+secondProjectAnchor.addEventListener("mouseover", function(){
+    setText("My Second Project");
+});
+secondProjectAnchor.addEventListener("mouseout", resetText);

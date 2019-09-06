@@ -5,7 +5,7 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-let red = 0;
+let red = 255;
 let green = 0;
 let blue = 0;
 let redChange = 0;
@@ -14,7 +14,7 @@ let blueChange = 0;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  background(0, 255, 0);
+  background(255, 255, 255);
 }
 
 function draw() {
@@ -24,12 +24,13 @@ function draw() {
     blueChange = -1;
     redChange = 0;
   } else if (red === 255 && blue === 0 && green === 0) {
+    redChange = 0;
     blueChange = 0;
     greenChange = 1;
   } else if (red === 255 && green === 255) {
     redChange = -1;
     greenChange = 0;
-  } else if (red === 0 && green === 255) {
+  } else if (red === 0 && green === 255 && blue === 0) {
     redChange = 0;
     blueChange = 1;
   } else if (green === 255 && blue === 255) {

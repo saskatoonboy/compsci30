@@ -13,7 +13,7 @@ function resetText()
 };
 
 firstProjectAnchor.addEventListener("mouseover", function(){
-    setText("My First Project");
+    setText("Rainbow circles get draw on the screen");
 });
 firstProjectAnchor.addEventListener("mouseout", resetText);
 

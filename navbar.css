@@ -29,6 +29,13 @@ li a {
 
 }
 
+li h2 {
+    
+    display: block;
+    text-align: center;
+    
+}
+
 li a.active {
 
     background-color: #878787;
@@ -47,9 +54,22 @@ li a:hover:not(.active) {
 
 }
 
-#navbar {
+#projects_navbar {
     list-style-type: none;
     margin: 0px;
+    padding: 0px;
+    border: 0px;
+    position: fixed;
+    overflow: auto;
+    height: 100%;
+    background-color: #b3b3b3;
+    width: 25%;
+}
+
+#demos_navbar {
+    list-style-type: none;
+    margin: 0px;
+    margin-left: 75%;
     padding: 0px;
     border: 0px;
     position: fixed;
@@ -62,6 +82,7 @@ li a:hover:not(.active) {
 .content {
 
     margin-left:25%;
+    margin-right: 25%;
     padding:1px 16px;
 
     /* formating to make sure the main content and the nav bar do not overlap */

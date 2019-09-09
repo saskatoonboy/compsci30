@@ -1,6 +1,7 @@
 let description = document.getElementById("description");
+
 let firstProjectAnchor = document.getElementById("firstProjectAnchor");
-let secondProjectAnchor = document.getElementById("secondProjectAnchor");
+let lineArtAnchor = document.getElementById("lineArtAnchor");
 
 function setText(msg)
 {
@@ -17,7 +18,7 @@ firstProjectAnchor.addEventListener("mouseover", function(){
 });
 firstProjectAnchor.addEventListener("mouseout", resetText);
 
-secondProjectAnchor.addEventListener("mouseover", function(){
-    setText("My Second Project");
+lineArtAnchor.addEventListener("mouseover", function(){
+    setText("Line Art Demo");
 });
-secondProjectAnchor.addEventListener("mouseout", resetText);
+lineArtAnchor.addEventListener("mouseout", resetText);

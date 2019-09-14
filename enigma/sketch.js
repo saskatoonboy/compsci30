@@ -53,7 +53,7 @@ function drawLamps() {
   } else {
     fill(lampOffColour[0], lampOffColour[1], lampOffColour[2]);
   }
-  circle(100, 100, 50);
+  circle(153, 100, 50);
   fill(0);
   textSize(32);
   text("W", 100, 113);
@@ -64,7 +64,7 @@ function drawLamps() {
   } else {
     fill(lampOffColour[0], lampOffColour[1], lampOffColour[2]);
   }
-  circle(100, 100, 50);
+  circle(206, 100, 50);
   fill(0);
   textSize(32);
   text("E", 100, 113);
@@ -75,7 +75,7 @@ function drawLamps() {
   } else {
     fill(lampOffColour[0], lampOffColour[1], lampOffColour[2]);
   }
-  circle(100, 100, 50);
+  circle(259, 100, 50);
   fill(0);
   textSize(32);
   text("R", 100, 113);
@@ -86,7 +86,7 @@ function drawLamps() {
   } else {
     fill(lampOffColour[0], lampOffColour[1], lampOffColour[2]);
   }
-  circle(100, 100, 50);
+  circle(312, 100, 50);
   fill(0);
   textSize(32);
   text("T", 100, 113);
@@ -97,7 +97,7 @@ function drawLamps() {
   } else {
     fill(lampOffColour[0], lampOffColour[1], lampOffColour[2]);
   }
-  circle(100, 100, 50);
+  circle(365, 100, 50);
   fill(0);
   textSize(32);
   text("Y", 100, 113);
@@ -108,7 +108,7 @@ function drawLamps() {
   } else {
     fill(lampOffColour[0], lampOffColour[1], lampOffColour[2]);
   }
-  circle(100, 100, 50);
+  circle(418, 100, 50);
   fill(0);
   textSize(32);
   text("U", 100, 113);
@@ -119,7 +119,7 @@ function drawLamps() {
   } else {
     fill(lampOffColour[0], lampOffColour[1], lampOffColour[2]);
   }
-  circle(100, 100, 50);
+  circle(471, 100, 50);
   fill(0);
   textSize(32);
   text("I", 100, 113);
@@ -130,7 +130,7 @@ function drawLamps() {
   } else {
     fill(lampOffColour[0], lampOffColour[1], lampOffColour[2]);
   }
-  circle(100, 100, 50);
+  circle(524, 100, 50);
   fill(0);
   textSize(32);
   text("O", 100, 113);
@@ -141,7 +141,7 @@ function drawLamps() {
   } else {
     fill(lampOffColour[0], lampOffColour[1], lampOffColour[2]);
   }
-  circle(100, 100, 50);
+  circle(577, 100, 50);
   fill(0);
   textSize(32);
   text("P", 100, 113);

@@ -20,7 +20,11 @@ function draw() {
   if (displayWindow == "lightBoard") {
 
     drawLamps();
+
+  } else if (displayWindow == "rotors") {
     
+    drawRotors();
+
   }
 }
 
@@ -76,6 +80,45 @@ function drawLamps() {
     text(thirdRow[index].toUpperCase(), 320 + index * 160, 513);
 
   }
+}
+
+function drawRotors() {
+
+  beginShape(LINES);
+  // left edge
+  vertex(100, 100);
+  vertex(105, 150);
+
+  vertex(105, 150);
+  vertex(105, 200);
+
+  vertex(105, 200);
+  vertex(100, 250);
+
+  // right edge
+  vertex(150, 100);
+  vertex(155, 150);
+
+  vertex(155, 150);
+  vertex(155, 200);
+
+  vertex(155, 200);
+  vertex(150, 250);
+
+  // horizontal lines
+  vertex(100, 100);
+  vertex(150, 100);
+  
+  vertex(105, 150);
+  vertex(155, 150);
+  
+  vertex(105, 200);
+  vertex(155, 200);
+
+  vertex(100, 200);
+  vertex(150, 200);
+  endShape();
+
 }
 
 function drawWindowButtons() {

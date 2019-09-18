@@ -10,9 +10,9 @@ let lampOffColour = [220, 220, 220]; // the colour of a lamp that is off
 let lampOnColour = [240, 250, 0]; // the colour of a lamp that is on
 let onLamp = ""; // the lamp that is on
 
-let rotors = ["EKMFLGDQVZNTOWYHXUSPAIBRCJ", "AJDKSIRUXBLHWTMCQGZNPYFVOE" ,"BDFHJLCPRTXVZNYEIWGAKMUSQO" ,["ESOVPZJAYQUIRHXLNFTGKDCMWB"] ,["VZBRGITYUPSDNHLXAWMJQOFECK"] ,["JPGVOUMFYQBENHZRDKASXLICTW"] ,["NZJHGRCXMYSWBOUFAIVLPEKQDT"] ,["FKQHTLXOCBJSPDZRAMEWNIUYGV"]];
+let rotors = ["EKMFLGDQVZNTOWYHXUSPAIBRCJEKMFLGDQVZNTOWYHXUSPAIBRCJEKMFLGDQVZNTOWYHXUSPAIBRCJ", "AJDKSIRUXBLHWTMCQGZNPYFVOEAJDKSIRUXBLHWTMCQGZNPYFVOEAJDKSIRUXBLHWTMCQGZNPYFVOE" ,"BDFHJLCPRTXVZNYEIWGAKMUSQOBDFHJLCPRTXVZNYEIWGAKMUSQOBDFHJLCPRTXVZNYEIWGAKMUSQO" ,"ESOVPZJAYQUIRHXLNFTGKDCMWBESOVPZJAYQUIRHXLNFTGKDCMWBESOVPZJAYQUIRHXLNFTGKDCMWB" ,"VZBRGITYUPSDNHLXAWMJQOFECKVZBRGITYUPSDNHLXAWMJQOFECKVZBRGITYUPSDNHLXAWMJQOFECK" ,"JPGVOUMFYQBENHZRDKASXLICTWJPGVOUMFYQBENHZRDKASXLICTWJPGVOUMFYQBENHZRDKASXLICTW" ,"NZJHGRCXMYSWBOUFAIVLPEKQDTNZJHGRCXMYSWBOUFAIVLPEKQDTNZJHGRCXMYSWBOUFAIVLPEKQDT" ,"FKQHTLXOCBJSPDZRAMEWNIUYGVFKQHTLXOCBJSPDZRAMEWNIUYGVFKQHTLXOCBJSPDZRAMEWNIUYGV"];
 let currentRotors = [0, 1, 2];
-let rotorOffest = [0, 0, 0];
+let rotorOffset = [26, 26, 26];
 
 let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -35,11 +35,15 @@ function draw() {
   }
 }
 
+
+// Light Board
+
+
 // function to draw the lamps
 function drawLamps() {
-  let firstRow = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"]; // order of letters in the first row of lamps
-  let secondRow = ["a", "s", "d", "f", "g", "h", "j", "k", "l"]; // order of letters in the second row of lamps
-  let thirdRow = ["z", "x", "c", "v", "b", "n", "m"]; // order of letters in the third row of lamps
+  let firstRow = "QWERTYUIOP"; // order of letters in the first row of lamps
+  let secondRow = "ASDFGHJKL"; // order of letters in the second row of lamps
+  let thirdRow = "ZXCVBNM"; // order of letters in the third row of lamps
 
   // draw first row
   for (let index=0; index < firstRow.length; index++) {
@@ -53,7 +57,7 @@ function drawLamps() {
     circle(80 + index * 160, 180, 50);
     fill(0);
     textSize(32);
-    text(firstRow[index].toUpperCase(), 80 + index * 160, 193);
+    text(firstRow[index], 80 + index * 160, 193);
 
   }
 
@@ -69,7 +73,7 @@ function drawLamps() {
     circle(160 + index * 160, 340, 50);
     fill(0);
     textSize(32);
-    text(secondRow[index].toUpperCase(), 160 + index * 160, 353);
+    text(secondRow[index], 160 + index * 160, 353);
 
   }
 
@@ -85,10 +89,14 @@ function drawLamps() {
     circle(320 + index * 160, 500, 50);
     fill(0);
     textSize(32);
-    text(thirdRow[index].toUpperCase(), 320 + index * 160, 513);
+    text(thirdRow[index], 320 + index * 160, 513);
 
   }
 }
+
+
+// Rotors
+
 
 // function to draw the rotors
 function drawRotors() {
@@ -133,11 +141,74 @@ function drawRotors() {
 
   }
 
-  text(rotors[currentRotors[0]][rotorOffest[0]], width/6-20 + 0 * width/3, 185);
-  text(rotors[currentRotors[1]][rotorOffest[1]], width/6-20 + 1 * width/3, 185);
-  text(rotors[currentRotors[2]][rotorOffest[2]], width/6-20 + 2 * width/3, 185);
+  // first rotor letters
+
+  text(rotors[currentRotors[0]][rotorOffset[0]+1], width/6-25, 135);
+  text(rotors[currentRotors[0]][rotorOffset[0]], width/6-20, 185);
+  text(rotors[currentRotors[0]][rotorOffset[0]-1], width/6-25, 235);
+
+  // second rotor letters
+
+  text(rotors[currentRotors[1]][rotorOffset[1]+1], width/2-25, 135);
+  text(rotors[currentRotors[1]][rotorOffset[1]], width/2-20, 185);
+  text(rotors[currentRotors[1]][rotorOffset[1]-1], width/2-25, 235);
+
+  // third rotor letters
+
+  text(rotors[currentRotors[2]][rotorOffset[2]+1], width - width/6-25, 135);
+  text(rotors[currentRotors[2]][rotorOffset[2]], width - width/6-20, 185);
+  text(rotors[currentRotors[2]][rotorOffset[2]-1], width - width/6-25, 235);
 
 }
+
+function moveRotor(rotor, amount) {
+  rotorOffset[rotor-1] += amount;
+  if (rotorOffset[rotor-1] < 26) {
+    rotorOffset[rotor-1] += 26;
+  } else if (rotorOffset[rotor-1] > 51) {
+    rotorOffset[rotor-1] -= 26;
+  }
+}
+
+function moveRotors() {
+  moveRotor(1, 1);
+  print(rotorOffset[0]);
+  if (rotorOffset[0] === 26) {
+    moveRotor(2, 1);
+    if (rotorOffset[1] === 26) {
+      moveRotor(3, 1);
+    }
+  }
+}
+
+function getSelectedRotor() {
+  for (let rotorNumber = 0; rotorNumber < 3; rotorNumber ++) {
+    if (mouseX >= width/6-50 + rotorNumber * width/3 && mouseX <= width/6+5 + rotorNumber * width/3 && mouseY >= 100 && mouseY <= 250) {
+      return rotorNumber + 1;
+    }
+  }
+}
+
+function getRotorEncryption(rotor, forward, char) {
+
+  let inputStrip;
+  let outputStrip;
+
+  if (forward) {
+    inputStrip = alphabet;
+    outputStrip = rotors[currentRotors[rotor-1]];
+  } else {
+    inputStrip = rotors[currentRotors[rotor-1]];
+    outputStrip = alphabet;
+  }
+
+  return (outputStrip[inputStrip.indexOf(char)+rotorOffset[rotor-1]]);
+
+}
+
+
+// window buttons
+
 
 function drawWindowButtons() {
   textAlign(CENTER);
@@ -182,8 +253,17 @@ function getRectClicked(x, y) {
   return 0;
 }
 
+
+// user input
+
+
 function keyPressed() {
-  onLamp = key;
+  if (displayWindow === "lightBoard") {
+    moveRotors();
+    let letter = getRotorEncryption(1, true, key.toUpperCase());
+    print(letter);
+    onLamp = letter;
+  }
 }
 
 function keyReleased() {
@@ -209,4 +289,13 @@ function mouseClicked() {
       displayWindow = "lightBoard";
     }
   }
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+
+function mouseWheel(event) {
+  moveRotor(getSelectedRotor(), event.delta/100);
+  return false;
 }

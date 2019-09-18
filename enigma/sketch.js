@@ -10,6 +10,13 @@ let lampOffColour = [220, 220, 220]; // the colour of a lamp that is off
 let lampOnColour = [240, 250, 0]; // the colour of a lamp that is on
 let onLamp = ""; // the lamp that is on
 
+let rotors = ["EKMFLGDQVZNTOWYHXUSPAIBRCJ", "AJDKSIRUXBLHWTMCQGZNPYFVOE" ,"BDFHJLCPRTXVZNYEIWGAKMUSQO" ,["ESOVPZJAYQUIRHXLNFTGKDCMWB"] ,["VZBRGITYUPSDNHLXAWMJQOFECK"] ,["JPGVOUMFYQBENHZRDKASXLICTW"] ,["NZJHGRCXMYSWBOUFAIVLPEKQDT"] ,["FKQHTLXOCBJSPDZRAMEWNIUYGV"]];
+let currentRotors = [0, 1, 2];
+let rotorOffest = [0, 0, 0];
+
+let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
 }
@@ -125,6 +132,10 @@ function drawRotors() {
     endShape();
 
   }
+
+  text(rotors[currentRotors[0]][rotorOffest[0]], width/6-20 + 0 * width/3, 185);
+  text(rotors[currentRotors[1]][rotorOffest[1]], width/6-20 + 1 * width/3, 185);
+  text(rotors[currentRotors[2]][rotorOffest[2]], width/6-20 + 2 * width/3, 185);
 
 }
 

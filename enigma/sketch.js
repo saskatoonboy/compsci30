@@ -54,10 +54,10 @@ function drawLamps() {
     } else {
       fill(lampOffColour[0], lampOffColour[1], lampOffColour[2]);
     }
-    circle(80 + index * 160, 180, 50);
+    circle(width/20 + index * width/10, 180, 50);
     fill(0);
     textSize(32);
-    text(firstRow[index], 80 + index * 160, 193);
+    text(firstRow[index], width/20 + index * width/10, 193);
 
   }
 
@@ -70,10 +70,10 @@ function drawLamps() {
     } else {
       fill(lampOffColour[0], lampOffColour[1], lampOffColour[2]);
     }
-    circle(160 + index * 160, 340, 50);
+    circle(width/10 + index * width/10, 340, 50);
     fill(0);
     textSize(32);
-    text(secondRow[index], 160 + index * 160, 353);
+    text(secondRow[index], width/10 + index * width/10, 353);
 
   }
 
@@ -86,10 +86,10 @@ function drawLamps() {
     } else {
       fill(lampOffColour[0], lampOffColour[1], lampOffColour[2]);
     }
-    circle(320 + index * 160, 500, 50);
+    circle(width/5 + index * width/10, 500, 50);
     fill(0);
     textSize(32);
-    text(thirdRow[index], 320 + index * 160, 513);
+    text(thirdRow[index], width/5 + index * width/10, 513);
 
   }
 }

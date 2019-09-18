@@ -5,10 +5,10 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-let displayWindow = "lightBoard";
-let lampOffColour = [220, 220, 220];
-let lampOnColour = [240, 250, 0];
-let onLamp = "";
+let displayWindow = "lightBoard"; // controls when different things are displayed (lightBoard, plugBoard and rotors)
+let lampOffColour = [220, 220, 220]; // the colour of a lamp that is off
+let lampOnColour = [240, 250, 0]; // the colour of a lamp that is on
+let onLamp = ""; // the lamp that is on
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -16,22 +16,23 @@ function setup() {
 
 function draw() {
   background(220);
-  drawWindowButtons();
+  drawWindowButtons(); // draw the buttons for switching windows
   if (displayWindow == "lightBoard") {
 
-    drawLamps();
+    drawLamps(); // if the light board is being displayed then draw the lamps
 
   } else if (displayWindow == "rotors") {
     
-    drawRotors();
+    drawRotors(); // if the rotors are being displayed then draw the rotors
 
   }
 }
 
+// function to draw the lamps
 function drawLamps() {
-  let firstRow = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"];
-  let secondRow = ["a", "s", "d", "f", "g", "h", "j", "k", "l"];
-  let thirdRow = ["z", "x", "c", "v", "b", "n", "m"];
+  let firstRow = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"]; // order of letters in the first row of lamps
+  let secondRow = ["a", "s", "d", "f", "g", "h", "j", "k", "l"]; // order of letters in the second row of lamps
+  let thirdRow = ["z", "x", "c", "v", "b", "n", "m"]; // order of letters in the third row of lamps
 
   // draw first row
   for (let index=0; index < firstRow.length; index++) {
@@ -82,42 +83,48 @@ function drawLamps() {
   }
 }
 
+// function to draw the rotors
 function drawRotors() {
 
-  beginShape(LINES);
-  // left edge
-  vertex(100, 100);
-  vertex(105, 150);
+  for (let rotorNumber = 0; rotorNumber < 3; rotorNumber ++) {
 
-  vertex(105, 150);
-  vertex(105, 200);
+    // custom rotor shape
+    beginShape(LINES);
+    // left edge
+    vertex(width/6-50 + rotorNumber * width/3, 100);
+    vertex(width/6-45 + rotorNumber * width/3, 150);
 
-  vertex(105, 200);
-  vertex(100, 250);
+    vertex(width/6-45 + rotorNumber * width/3, 150);
+    vertex(width/6-45 + rotorNumber * width/3, 200);
 
-  // right edge
-  vertex(150, 100);
-  vertex(155, 150);
+    vertex(width/6-45 + rotorNumber * width/3, 200);
+    vertex(width/6-50 + rotorNumber * width/3, 250);
 
-  vertex(155, 150);
-  vertex(155, 200);
+    // right edge
+    vertex(width/6 + rotorNumber * width/3, 100);
+    vertex(width/6+5 + rotorNumber * width/3, 150);
 
-  vertex(155, 200);
-  vertex(150, 250);
+    vertex(width/6+5 + rotorNumber * width/3, 150);
+    vertex(width/6+5 + rotorNumber * width/3, 200);
 
-  // horizontal lines
-  vertex(100, 100);
-  vertex(150, 100);
-  
-  vertex(105, 150);
-  vertex(155, 150);
-  
-  vertex(105, 200);
-  vertex(155, 200);
+    vertex(width/6+5 + rotorNumber * width/3, 200);
+    vertex(width/6 + rotorNumber * width/3, 250);
 
-  vertex(100, 200);
-  vertex(150, 200);
-  endShape();
+    // horizontal lines
+    vertex(width/6-50 + rotorNumber * width/3, 100);
+    vertex(width/6 + rotorNumber * width/3, 100);
+    
+    vertex(width/6-45 + rotorNumber * width/3, 150);
+    vertex(width/6+5 + rotorNumber * width/3, 150);
+    
+    vertex(width/6-45 + rotorNumber * width/3, 200);
+    vertex(width/6+5 + rotorNumber * width/3, 200);
+
+    vertex(width/6-50 + rotorNumber * width/3, 250);
+    vertex(width/6 + rotorNumber * width/3, 250);
+    endShape();
+
+  }
 
 }
 

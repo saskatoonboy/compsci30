@@ -14,7 +14,7 @@ let rotors = ["EKMFLGDQVZNTOWYHXUSPAIBRCJEKMFLGDQVZNTOWYHXUSPAIBRCJEKMFLGDQVZNTO
 let currentRotors = [0, 1, 2];
 let rotorOffset = [26, 26, 26];
 
-let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 
 function setup() {
@@ -191,21 +191,24 @@ function getSelectedRotor() {
 
 function getRotorEncryption(rotor, forward, char) {
 
-  let inputStrip;
-  let outputStrip;
+  let rotorStrip = rotors[currentRotors[rotor-1]];
 
   if (forward) {
-    inputStrip = alphabet;
-    outputStrip = rotors[currentRotors[rotor-1]];
+    return (rotorStrip[alphabet.indexOf(char)+rotorOffset[rotor-1]]);
   } else {
-    inputStrip = rotors[currentRotors[rotor-1]];
-    outputStrip = alphabet;
+    return (alphabet[rotorStrip.indexOf(char)+rotorOffset[rotor-1]]);
   }
-
-  return (outputStrip[inputStrip.indexOf(char)+rotorOffset[rotor-1]]);
 
 }
 
+
+// reflector
+
+let reflector = "YRUHQSLDPXNGOKMIEBFZCWVJATYRUHQSLDPXNGOKMIEBFZCWVJATYRUHQSLDPXNGOKMIEBFZCWVJAT";
+
+function getReflected(char) {
+  return (reflector[alphabet.indexOf(char)]);
+}
 
 // window buttons
 
@@ -260,8 +263,21 @@ function getRectClicked(x, y) {
 function keyPressed() {
   if (displayWindow === "lightBoard") {
     moveRotors();
+    print("Key pressed: " + key)
     let letter = getRotorEncryption(1, true, key.toUpperCase());
-    print(letter);
+    print("First Rotor: " + letter)
+    letter = getRotorEncryption(2, true, letter);
+    print("Second Rotor: " + letter)
+    letter = getRotorEncryption(3, true, letter);
+    print("Third Rotor: " + letter)
+    letter = getReflected(letter);
+    print("Reflector: " + letter)
+    letter = getRotorEncryption(3, false, letter);
+    print("Third Rotor: " + letter)
+    letter = getRotorEncryption(2, false, letter);
+    print("Second Rotor: " + letter)
+    letter = getRotorEncryption(1, false, letter);
+    print("First Rotor: " + letter)
     onLamp = letter;
   }
 }
@@ -295,7 +311,17 @@ function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
 
+let scrollCount = 0;
+
 function mouseWheel(event) {
-  moveRotor(getSelectedRotor(), event.delta/100);
+  scrollCount += event.delta;
+  print(scrollCount);
+  if (scrollCount >= 100) {
+    moveRotor(getSelectedRotor(), (scrollCount-scrollCount%100)/100);
+    scrollCount -= 100;
+  } else if (scrollCount <= -100) {
+    moveRotor(getSelectedRotor(), (scrollCount-scrollCount%100)/100);
+    scrollCount += 100;
+  }
   return false;
 }

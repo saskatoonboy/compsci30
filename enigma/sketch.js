@@ -196,7 +196,7 @@ function getRotorEncryption(rotor, forward, char) {
   if (forward) {
     return (rotorStrip[alphabet.indexOf(char)+rotorOffset[rotor-1]]);
   } else {
-    return (alphabet[rotorStrip.indexOf(char)+rotorOffset[rotor-1]]);
+    return (alphabet[rotorStrip.indexOf(char)-rotorOffset[rotor-1]]);
   }
 
 }

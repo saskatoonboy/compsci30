@@ -59,6 +59,10 @@ function draw() {
     
     drawRotors(); // if the rotors are being displayed then draw the rotors
 
+  } else {
+
+    drawPlugs();
+
   }
 }
 
@@ -533,6 +537,125 @@ function getRectClicked(x, y) {
 }
 
 
+// plugboard
+
+
+let plugs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]; // where each plug connects
+let firstPlugRow = "QWERTYUIOP"; // order of letters in the first row of plugs
+let secondPlugRow = "ASDFGHJKL"; // order of letters in the second row of plugs
+let thirdPlugRow = "ZXCVBNM"; // order of letters in the third row of plugs
+
+function getPlug(char) {
+
+  return plugs[char];
+
+}
+
+function clickedPlug(x, y) {
+
+  // first row
+  if (y >= 130 && y <= 230) {
+
+    for (let index=0; index < firstPlugRow.length; index++) {
+
+      if (x >= width/20 + index * width/10 - 25 && x <= width/20 + index * width/10 + 25) {
+
+        return alphabet.indexOf(firstPlugRow[index]);
+
+      }
+    }
+  }
+
+  // second row
+  if (y >= 290 && y <= 390) {
+
+    for (let index=0; index < secondPlugRow.length; index++) {
+
+      if (x >= width/10 + index * width/10 - 25 && x <= width/10 + index * width/10 + 25) {
+
+        return alphabet.indexOf(secondPlugRow[index]);
+        
+      }
+    }
+  }
+
+  // third row
+  if (y >= 450 && y <= 550) {
+
+    for (let index=0; index < thirdPlugRow.length; index++) {
+
+      if (x >= width/5 + index * width/10 - 25 && x <= width/5 + index * width/10 + 25) {
+
+        return alphabet.indexOf(thirdPlugRow[index]);
+        
+      }
+    }
+  }
+
+  return -1;
+}
+
+function drawPlugs() {
+
+  // draw first row
+  for (let index=0; index < firstPlugRow.length; index++) {
+
+    // draw plug
+
+    fill(220);
+    rect(width/20 + index * width/10 - 25, 130, 50, 100);
+
+    circle(width/20 + index * width/10, 160, 20);
+    circle(width/20 + index * width/10, 200, 20);
+
+    fill(0);
+    textSize(32);
+    text(firstPlugRow[index], width/15 + index * width/10 - 25, 120);
+
+  }
+
+  // draw second row
+  for (let index=0; index < secondPlugRow.length; index++) {
+
+    // draw plug
+
+    fill(220);
+    rect(width/10 + index * width/10 - 25, 290, 50, 100);
+
+    circle(width/10 + index * width/10, 320, 20);
+    circle(width/10 + index * width/10, 360, 20);
+
+    fill(0);
+    textSize(32);
+    text(secondPlugRow[index], width/60 * 7 + index * width/10 - 25, 280);
+
+  }
+
+  // draw third row
+  for (let index=0; index < thirdPlugRow.length; index++) {
+
+    // draw plug
+    
+    fill(220);
+    rect(width/5 + index * width/10 - 25, 450, 50, 100);
+
+    circle(width/5 + index * width/10, 480, 20);
+    circle(width/5 + index * width/10, 520, 20);
+
+    fill(0);
+    textSize(32);
+    text(thirdPlugRow[index], width/60 * 13 + index * width/10 - 25, 440);
+
+  }
+
+  // drawing the cables
+  for (let socket = 0; socket < 26; socket ++) {
+    if (plugs[socket] === !socket) {
+      
+    }
+  }
+}
+
 // user input
 
 
@@ -543,7 +666,9 @@ function keyPressed() {
     
     moveRotors();
 
-    let letter = getRotorEncryption(1, true, alphabet.indexOf(key.toUpperCase()));
+    let letter = getPlug(alphabet.indexOf(key.toUpperCase()));
+
+    letter = getRotorEncryption(1, true, letter);
 
     letter = getRotorEncryption(2, true, letter);
 
@@ -556,6 +681,8 @@ function keyPressed() {
     letter = getRotorEncryption(2, false, letter);
 
     letter = getRotorEncryption(1, false, letter);
+
+    letter = getPlug(letter);
 
     onLamp = alphabet[letter];
 
@@ -604,14 +731,16 @@ function mouseClicked() {
     }
   }
 
+  // swaping the used rotors
   if (displayWindow === "rotors") {
 
     let clickedRotor = getSelectedRotor(mouseX, mouseY);
 
     if (clickedRotor > 0 && selectedRotor > -1) {
 
+      let oldRotor = currentRotors[clickedRotor-1];
       currentRotors[clickedRotor-1] = selectedRotor;
-      selectedRotor = -1;
+      selectedRotor = oldRotor;
 
     } else {
 
@@ -621,6 +750,8 @@ function mouseClicked() {
     }
 
   }
+
+  print(alphabet[clickedPlug(mouseX, mouseY)]);
 }
 
 // p5js window resized function

@@ -93,6 +93,7 @@ function drawLamps() {
     } else {
       fill(lampOffColour[0], lampOffColour[1], lampOffColour[2]);
     }
+    
     circle(width/5 + index * width/10, 500, 50);
     fill(0);
     textSize(32);

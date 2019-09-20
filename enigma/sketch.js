@@ -10,6 +10,7 @@ let lampOffColour = [220, 220, 220]; // the colour of a lamp that is off
 let lampOnColour = [240, 250, 0]; // the colour of a lamp that is on
 let onLamp = ""; // the lamp that is on
 
+// the rotor wirings in order
 let rotors = [[4, 10, 12, 5, 11, 6, 3, 16, 21, 25, 13, 19, 14, 22, 24, 7, 23, 20, 18, 15, 0, 8, 1, 17, 2, 9], 
   [0, 9, 3, 10, 18, 8, 17, 20, 23, 1, 11, 7, 22, 19, 12, 2, 16, 6, 25, 13, 15, 24, 5, 21, 14, 4], 
   [1, 3, 5, 7, 9, 11, 2, 15, 17, 19, 23, 21, 25, 13, 24, 4, 8, 22, 6, 0, 10, 12, 20, 18, 16, 14],
@@ -18,19 +19,38 @@ let rotors = [[4, 10, 12, 5, 11, 6, 3, 16, 21, 25, 13, 19, 14, 22, 24, 7, 23, 20
   [9, 15, 6, 21, 14, 20, 12, 5, 24, 16, 1, 4, 13, 7, 25, 17, 3, 10, 0, 18, 23, 11, 8, 2, 19, 22],
   [13, 25, 9, 7, 6, 17, 2, 23, 12, 24, 18, 22, 1, 14, 20, 5, 0, 8, 21, 11, 15, 4, 10, 16, 3, 19],
   [5, 10, 16, 7, 19, 11, 23, 14, 2, 1, 9, 18, 15, 3, 25, 17, 0, 12, 4, 22, 13, 8, 20, 24, 6, 21]];
-let currentRotors = [0, 1, 2];
-let rotorOffset = [0, 0, 0];
+let currentRotors = [0, 1, 2]; // the order of the currently selected rotors
+let rotorOffset = [0, 0, 0]; // the amount that each rotor has been turned
+let selectedRotor = -1; // the rotor that is on the cursor
 
+// the alphabet
 let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-
+// function to setup p5js
 function setup() {
+
   createCanvas(windowWidth, windowHeight);
+
 }
 
+// polygon function from p5js examples
+function polygon(x, y, radius, npoints) {
+  let angle = TWO_PI / npoints;
+  beginShape();
+  for (let a = 0; a < TWO_PI; a += angle) {
+    let sx = x + cos(a) * radius;
+    let sy = y + sin(a) * radius;
+    vertex(sx, sy);
+  }
+  endShape(CLOSE);
+}
+
+// draw function from p5js
 function draw() {
+
   background(220);
   drawWindowButtons(); // draw the buttons for switching windows
+
   if (displayWindow == "lightBoard") {
 
     drawLamps(); // if the light board is being displayed then draw the lamps
@@ -48,6 +68,7 @@ function draw() {
 
 // function to draw the lamps
 function drawLamps() {
+
   let firstRow = "QWERTYUIOP"; // order of letters in the first row of lamps
   let secondRow = "ASDFGHJKL"; // order of letters in the second row of lamps
   let thirdRow = "ZXCVBNM"; // order of letters in the third row of lamps
@@ -57,10 +78,15 @@ function drawLamps() {
 
     // draw lamp
     if (onLamp == firstRow[index]) {
+
       fill(lampOnColour[0], lampOnColour[1], lampOnColour[2]);
+
     } else {
+
       fill(lampOffColour[0], lampOffColour[1], lampOffColour[2]);
+
     }
+
     circle(width/20 + index * width/10, 180, 50);
     fill(0);
     textSize(32);
@@ -73,10 +99,15 @@ function drawLamps() {
 
     // draw lamp
     if (onLamp == secondRow[index]) {
+
       fill(lampOnColour[0], lampOnColour[1], lampOnColour[2]);
+
     } else {
+
       fill(lampOffColour[0], lampOffColour[1], lampOffColour[2]);
+
     }
+
     circle(width/10 + index * width/10, 340, 50);
     fill(0);
     textSize(32);
@@ -89,10 +120,15 @@ function drawLamps() {
 
     // draw lamp
     if (onLamp == thirdRow[index]) {
+
       fill(lampOnColour[0], lampOnColour[1], lampOnColour[2]);
+
     } else {
+
       fill(lampOffColour[0], lampOffColour[1], lampOffColour[2]);
+
     }
+
     circle(width/5 + index * width/10, 500, 50);
     fill(0);
     textSize(32);
@@ -108,10 +144,14 @@ function drawLamps() {
 // function to draw the rotors
 function drawRotors() {
 
+  // array of romain numberals
+  let romainNumberals = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
+  
   for (let rotorNumber = 0; rotorNumber < 3; rotorNumber ++) {
 
     // custom rotor shape
     beginShape(LINES);
+
     // left edge
     vertex(width/6-50 + rotorNumber * width/3, 100);
     vertex(width/6-45 + rotorNumber * width/3, 150);
@@ -144,74 +184,265 @@ function drawRotors() {
 
     vertex(width/6-50 + rotorNumber * width/3, 250);
     vertex(width/6 + rotorNumber * width/3, 250);
+
     endShape();
 
   }
 
   // rotor letters
   for (let rotor = 0; rotor < 3; rotor ++) {
+
     for (let offset = 1; offset >= -1; offset --) {
-      let totalOffset = rotorOffset[rotor]+offset;
+
+      // the index for rotorRotors is 2-rotor so that the first rotor is on the far right
+      let totalOffset = rotorOffset[2-rotor]+offset;
+
       if (totalOffset < 0) {
+
         totalOffset += 26;
+
       } else if (totalOffset > 25) {
+
         totalOffset -= 26;
+
       }
-      text(alphabet[rotors[currentRotors[rotor]][totalOffset]], width/6-25+width/3*rotor, 185 - offset * 50);
+      
+      // print the letter for the rotor. the index for currentRotors is 2-rotor so that the first rotor is on the far right
+      text(alphabet[rotors[currentRotors[2-rotor]][totalOffset]], width/6-25+width/3*rotor, 185 - offset * 50);
+    }
+
+    // write the romain numeral for the rotor
+    text(romainNumberals[currentRotors[2-rotor]], width/6-25+width/3*rotor, 85);
+
+  }
+
+  // draw unused rotors
+  for (let rotorNumber = 0; rotorNumber < 8; rotorNumber ++) {
+
+    if (rotorNumber === selectedRotor) {
+
+      fill(180);
+      polygon(mouseX, mouseY, width/20, 12);
+      
+      fill(220);
+      polygon(mouseX, mouseY, width/20 - 5, 12);
+      
+      fill(0);
+      textSize(36);
+      text(romainNumberals[rotorNumber], mouseX, mouseY + height/50);
+
+    } else if (currentRotors.indexOf(rotorNumber) === -1) {
+
+      fill(180);
+      polygon(width/20*7 + (rotorNumber - rotorNumber % 2) / 2 * width/10, height/2 + rotorNumber % 2 * width/10, width/20, 12);
+      
+      fill(220);
+      polygon(width/20*7 + (rotorNumber - rotorNumber % 2) / 2 * width/10, height/2 + rotorNumber % 2 * width/10, width/20 - 5, 12);
+      
+      fill(0);
+      textSize(36);
+      text(romainNumberals[rotorNumber], width/20*7 + (rotorNumber - rotorNumber % 2) / 2 * width/10, height/25*13 + rotorNumber % 2 * width/10);
     }
   }
+
 }
 
+// function to move a specific rotor a designated amount
 function moveRotor(rotor, amount) {
+
   rotorOffset[rotor-1] += amount;
+
   if (rotorOffset[rotor-1] < 0) {
+
     rotorOffset[rotor-1] += 26;
+
   } else if (rotorOffset[rotor-1] > 25) {
+
     rotorOffset[rotor-1] -= 26;
+
   }
 }
 
+// function for moving the rotors like an odometer
 function moveRotors() {
+
   moveRotor(1, 1);
-  print(rotorOffset[0]);
-  if (rotorOffset[0] === 26) {
+
+  if (rotorOffset[0] === 0) {
+
     moveRotor(2, 1);
-    if (rotorOffset[1] === 26) {
+
+    if (rotorOffset[1] === 0) {
+
       moveRotor(3, 1);
+
     }
   }
 }
 
+// function that returns the number of the rotor that is currently selected or 0 if none are selcted
 function getSelectedRotor() {
+
   for (let rotorNumber = 0; rotorNumber < 3; rotorNumber ++) {
+
     if (mouseX >= width/6-50 + rotorNumber * width/3 && mouseX <= width/6+5 + rotorNumber * width/3 && mouseY >= 100 && mouseY <= 250) {
-      return rotorNumber + 1;
+      
+      // return (rotorNumber - 3) * -1 so that the first rotor is on the far right
+      return (rotorNumber - 3) * -1;
+
+    }
+  }
+  
+  return 0;
+
+}
+
+// check if one of the unused rotors was clicked on
+function getClickedRotor(x, y) {
+
+  if (y >= height/2-width/20) {
+
+    // first row of rotors
+    if (y <= height/2+width/20) {
+
+      if (x >= width/10*3) {
+
+        // first rotor
+        if (x <= width/5*2) {
+          
+          if (selectedRotor === 0) {
+            selectedRotor = -1;
+          } else if (currentRotors.indexOf(0) === -1) {
+            selectedRotor = 0;
+          }
+
+          print(1);
+
+        // third rotor
+        } else if (x <= width/2) {
+
+          if (selectedRotor === 2) {
+            selectedRotor = -1;
+          } else if (currentRotors.indexOf(2) === -1) {
+            selectedRotor = 2;
+          }
+
+          print(3);
+
+        // fifth rotor
+        } else if (x <= width/5*3) {
+
+          if (selectedRotor === 4) {
+            selectedRotor = -1;
+          } else if (currentRotors.indexOf(4) === -1) {
+            selectedRotor = 4;
+          }
+
+          print(5);
+          
+        // seventh rotor
+        } else if (x <= width/10*7) {
+
+          if (selectedRotor === 6) {
+            selectedRotor = -1;
+          } else if (currentRotors.indexOf(6) === -1) {
+            selectedRotor = 6;
+          }
+
+          print(7);
+          
+        }
+      }
+
+    // second row of rotors
+    } else if (y <= height/2+width/20*3){
+
+      if (x >= width/10*3) {
+
+        // second rotor
+        if (x <= width/5*2) {
+
+          if (selectedRotor === 1) {
+            selectedRotor = -1;
+          } else if (currentRotors.indexOf(1) === -1) {
+            selectedRotor = 1;
+          }
+
+          print(2);
+          
+        // fourth rotor
+        } else if (x <= width/2) {
+
+          if (selectedRotor === 3) {
+            selectedRotor = -1;
+          } else if (currentRotors.indexOf(3) === -1) {
+            selectedRotor = 3;
+          }
+
+          print(4);
+          
+        // sixth rotor
+        } else if (x <= width/5*3) {
+
+          if (selectedRotor === 5) {
+            selectedRotor = -1;
+          } else if (currentRotors.indexOf(5) === -1) {
+            selectedRotor = 5;
+          }
+
+          print(6);
+          
+        // eighth rotor
+        } else if (x <= width/10*7) {
+
+          if (selectedRotor === 7) {
+            selectedRotor = -1;
+          } else if (currentRotors.indexOf(7) === -1) {
+            selectedRotor = 7;
+          }
+
+          print(8);
+        }
+      }
     }
   }
 }
 
+// get the value that comes out of a rotor using the parameters of which rotor, the direction of the current, and the letter the current is flowing through
 function getRotorEncryption(rotor, forward, char) {
 
   let rotorStrip = rotors[currentRotors[rotor-1]];
 
   if (forward) {
+
     let rotorStripIndex = char+rotorOffset[rotor-1];
-    print(rotorStripIndex);
+
     if (rotorStripIndex < 0) {
+
+      rotorStripIndex += 26;
+
+    } else if (rotorStripIndex > 25) {
+
+      rotorStripIndex -= 26;
+
+    }
+
+    return (rotorStrip[rotorStripIndex]);
+
+  } else {
+
+    let rotorStripIndex = rotorStrip.indexOf(char);
+    rotorStripIndex -= rotorOffset[rotor-1];
+
+    if (rotorStripIndex < 0) {
+
       rotorStripIndex += 26;
     } else if (rotorStripIndex > 25) {
+
       rotorStripIndex -= 26;
     }
-    print(rotorStripIndex);
-    print(rotorStrip[rotorStripIndex]);
-    return (rotorStrip[rotorStripIndex]);
-  } else {
-    rotorStripIndex = rotorStrip.indexOf(char)+26;
-    print(rotorStripIndex);
-    rotorStripIndex -= rotorOffset[rotor-1];
-    print(rotorStripIndex);
-    print(rotorOffset[rotor-1]);
-    return (alphabet[rotorStripIndex]);
+
+    return rotorStripIndex;
   }
 
 }
@@ -219,124 +450,205 @@ function getRotorEncryption(rotor, forward, char) {
 
 // reflector
 
+// wiring of the reflector
 let reflector = [24, 17, 20, 7, 16, 18, 11, 3, 15, 23, 13, 6, 14, 10, 12, 8, 4, 1, 5, 25, 2, 22, 21, 9, 0, 19];
 
+// function to get the character that a different character is wired to
 function getReflected(char) {
+
   return (reflector[char]);
+
 }
+
 
 // window buttons
 
 
+// function to draw the buttons used to switch windows
 function drawWindowButtons() {
+
   textAlign(CENTER);
   textSize(24);
   fill(220);
+
   if (displayWindow === "lightBoard") {
+
     rect(width/2-100, height-40, 100, 40);
     rect(width/2, height-40, 100, 40);
+
     fill(0);
+
     text("Plugs", width/2-50, height-10);
     text("Rotors", width/2+50, height-10);
+
   } else if (displayWindow === "plugBoard") {
+
     rect(width/2-100, height-40, 100, 40);
     rect(width/2, height-40, 100, 40);
+
     fill(0);
-    text("Lights", width/2-50, height-10);
-    text("Rotors", width/2+50, height-10);
-  } else if (displayWindow === "rotors") {
-    rect(width/2-100, height-40, 100, 40);
-    rect(width/2, height-40, 100, 40);
-    fill(0);
-    text("Plugs", width/2-50, height-10);
+
+    text("Rotors", width/2-50, height-10);
     text("Lights", width/2+50, height-10);
+
+  } else if (displayWindow === "rotors") {
+
+    rect(width/2-100, height-40, 100, 40);
+    rect(width/2, height-40, 100, 40);
+
+    fill(0);
+
+    text("Lights", width/2-50, height-10);
+    text("Plugs", width/2+50, height-10);
   } 
 }
 
+// function to get which of the window navigation buttons was clicked
 function getRectClicked(x, y) {
+
   if (y > height-40) {
+
     if (x > width/2-100) {
+
       if (x > width/2) {
+
         if (x < width/2 + 100) {
+
           // it is the second button
           return 2;
+
         }
       } else {
+
         // it is the first button
         return 1;
+
       }
     }
   }
+
   // no button clicked
   return 0;
+
 }
 
 
 // user input
 
 
+// p5js key pressed function
 function keyPressed() {
+
   if (displayWindow === "lightBoard") {
+    
     moveRotors();
-    print("Key pressed: " + key)
+
     let letter = getRotorEncryption(1, true, alphabet.indexOf(key.toUpperCase()));
-    print("First Rotor: " + letter)
+
     letter = getRotorEncryption(2, true, letter);
-    print("Second Rotor: " + letter)
+
     letter = getRotorEncryption(3, true, letter);
-    print("Third Rotor: " + letter)
+
     letter = getReflected(letter);
-    print("Reflector: " + letter)
+
     letter = getRotorEncryption(3, false, letter);
-    print("Third Rotor: " + letter)
+
     letter = getRotorEncryption(2, false, letter);
-    print("Second Rotor: " + letter)
+
     letter = getRotorEncryption(1, false, letter);
-    print("First Rotor: " + letter)
-    onLamp = letter;
+
+    onLamp = alphabet[letter];
+
   }
 }
 
+// p5js key released function
 function keyReleased() {
+
   onLamp = "";
+
 }
 
+// p5js mouse clicked function
 function mouseClicked() {
+
   let buttonClicked = getRectClicked(mouseX, mouseY);
+
   if (buttonClicked == 1) {
+
     if (displayWindow == "lightBoard") {
+
       displayWindow = "plugBoard";
+
     } else if (displayWindow == "plugBoard") {
-      displayWindow = "lightBoard";
+
+      displayWindow = "rotors";
+
     } else {
-      displayWindow = "plugBoard";
+
+      displayWindow = "lightBoard";
+
     }
   }else if (buttonClicked == 2) {
+
     if (displayWindow == "lightBoard") {
+
       displayWindow = "rotors";
+
     } else if (displayWindow == "plugBoard") {
-      displayWindow = "rotors";
-    } else {
+
       displayWindow = "lightBoard";
+
+    } else {
+      displayWindow = "plugBoard";
     }
   }
+
+  if (displayWindow === "rotors") {
+
+    let clickedRotor = getSelectedRotor(mouseX, mouseY);
+
+    if (clickedRotor > 0 && selectedRotor > -1) {
+
+      currentRotors[clickedRotor-1] = selectedRotor;
+      selectedRotor = -1;
+
+    } else {
+
+      print(selectedRotor);
+      getClickedRotor(mouseX, mouseY);
+
+    }
+
+  }
 }
 
+// p5js window resized function
 function windowResized() {
+
   resizeCanvas(windowWidth, windowHeight);
+
 }
 
+// function to track how much the user has scrolled since we last moved a rotor (only needed with trackpads)
 let scrollCount = 0;
 
+// p5js mouse wheel function
 function mouseWheel(event) {
-  scrollCount += event.delta;
-  print(scrollCount);
+
+  scrollCount += event.delta; // event.delta is the amount scrolled
+
   if (scrollCount >= 100) {
+
     moveRotor(getSelectedRotor(), (scrollCount-scrollCount%100)/100);
     scrollCount -= 100;
+
   } else if (scrollCount <= -100) {
+
     moveRotor(getSelectedRotor(), (scrollCount-scrollCount%100)/100);
     scrollCount += 100;
+
   }
-  return false;
+
+  return false; // this prevents the browser from doing anything with the mouse wheel event
 }

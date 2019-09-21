@@ -544,6 +544,7 @@ let plugs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 1
 let firstPlugRow = "QWERTYUIOP"; // order of letters in the first row of plugs
 let secondPlugRow = "ASDFGHJKL"; // order of letters in the second row of plugs
 let thirdPlugRow = "ZXCVBNM"; // order of letters in the third row of plugs
+let selectedPlug = -1;
 
 function getPlug(char) {
 
@@ -551,7 +552,7 @@ function getPlug(char) {
 
 }
 
-function clickedPlug(x, y) {
+function getClickedPlug(x, y) {
 
   // first row
   if (y >= 130 && y <= 230) {
@@ -602,7 +603,16 @@ function drawPlugs() {
 
     // draw plug
 
-    fill(220);
+    if (plugs[alphabet.indexOf(firstPlugRow[index])] === alphabet.indexOf(firstPlugRow[index])) {
+
+      fill(220);
+
+    } else {
+
+      fill(0);
+
+    }
+
     rect(width/20 + index * width/10 - 25, 130, 50, 100);
 
     circle(width/20 + index * width/10, 160, 20);
@@ -612,6 +622,12 @@ function drawPlugs() {
     textSize(32);
     text(firstPlugRow[index], width/15 + index * width/10 - 25, 120);
 
+    if (plugs[alphabet.indexOf(firstPlugRow[index])] !== alphabet.indexOf(firstPlugRow[index])) {
+
+      fill(255);
+      text(alphabet[plugs[alphabet.indexOf(firstPlugRow[index])]], width/15 + index * width/10 - 25, 190);
+
+    }
   }
 
   // draw second row
@@ -619,7 +635,17 @@ function drawPlugs() {
 
     // draw plug
 
-    fill(220);
+
+    if (plugs[alphabet.indexOf(secondPlugRow[index])] === alphabet.indexOf(secondPlugRow[index])) {
+
+      fill(220);
+
+    } else {
+
+      fill(0);
+
+    }
+
     rect(width/10 + index * width/10 - 25, 290, 50, 100);
 
     circle(width/10 + index * width/10, 320, 20);
@@ -629,6 +655,12 @@ function drawPlugs() {
     textSize(32);
     text(secondPlugRow[index], width/60 * 7 + index * width/10 - 25, 280);
 
+    if (plugs[alphabet.indexOf(secondPlugRow[index])] !== alphabet.indexOf(secondPlugRow[index])) {
+
+      fill(255);
+      text(alphabet[plugs[alphabet.indexOf(secondPlugRow[index])]], width/60 * 7 + index * width/10 - 25, 350);
+
+    }
   }
 
   // draw third row
@@ -636,7 +668,17 @@ function drawPlugs() {
 
     // draw plug
     
-    fill(220);
+
+    if (plugs[alphabet.indexOf(thirdPlugRow[index])] === alphabet.indexOf(thirdPlugRow[index])) {
+
+      fill(220);
+
+    } else {
+
+      fill(0);
+
+    }
+
     rect(width/5 + index * width/10 - 25, 450, 50, 100);
 
     circle(width/5 + index * width/10, 480, 20);
@@ -646,14 +688,43 @@ function drawPlugs() {
     textSize(32);
     text(thirdPlugRow[index], width/60 * 13 + index * width/10 - 25, 440);
 
+    if (plugs[alphabet.indexOf(thirdPlugRow[index])] !== alphabet.indexOf(thirdPlugRow[index])) {
+
+      fill(255);
+      text(alphabet[plugs[alphabet.indexOf(thirdPlugRow[index])]], width/60 * 13 + index * width/10 - 25, 510);
+
+    }
   }
 
   // drawing the cables
+  beginShape(LINES);
   for (let socket = 0; socket < 26; socket ++) {
-    if (plugs[socket] === !socket) {
-      
+
+    if (plugs[socket] !== socket && plugs[socket] < socket) {
+
+      let socketLetter = alphabet[socket];
+      let plugLetter = alphabet[plugs[socket]];
+
+      print(socketLetter, plugLetter);
+
+      if (firstPlugRow.indexOf(socketLetter) > -1) {
+        vertex(width/20 + firstPlugRow.indexOf(socketLetter) * width/10, 230);
+      } else if (secondPlugRow.indexOf(socketLetter) > -1) {
+        vertex(width/10 + secondPlugRow.indexOf(socketLetter) * width/10, 390);
+      } else if (thirdPlugRow.indexOf(socketLetter) > -1) {
+        vertex(width/5 + thirdPlugRow.indexOf(socketLetter) * width/10, 550);
+      }
+
+      if (firstPlugRow.indexOf(plugLetter) > -1) {
+        vertex(width/20 + firstPlugRow.indexOf(plugLetter) * width/10, 230);
+      } else if (secondPlugRow.indexOf(plugLetter) > -1) {
+        vertex(width/10 + secondPlugRow.indexOf(plugLetter) * width/10, 390);
+      } else if (thirdPlugRow.indexOf(plugLetter) > -1) {
+        vertex(width/5 + thirdPlugRow.indexOf(plugLetter) * width/10, 550);
+      }
     }
   }
+  endShape();
 }
 
 // user input
@@ -749,9 +820,22 @@ function mouseClicked() {
 
     }
 
-  }
+  } else if (displayWindow === "plugBoard") {
+    let clickedPlug = getClickedPlug(mouseX, mouseY);
 
-  print(alphabet[clickedPlug(mouseX, mouseY)]);
+    if (clickedPlug > -1) {
+
+      if (plugs[alphabet.indexOf(firstPlugRow[clickedPlug])] === alphabet.indexOf(firstPlugRow[clickedPlug])) {
+
+        if (selectedPlug > -1) {
+
+          let oldPlug = selectedPlug;
+          selectedPlug = plugs[clickedPlug];
+          plugs[clickedPlug] = oldPlug;
+        }
+      }
+    }
+  }
 }
 
 // p5js window resized function

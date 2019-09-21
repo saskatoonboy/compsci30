@@ -540,17 +540,11 @@ function getRectClicked(x, y) {
 // plugboard
 
 
-let plugs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]; // where each plug connects
+let plugs = [0, 15, 22, 17, 19, 5, 6, 24, 8, 11, 10, 9, 12, 20, 25, 1, 21, 3, -1, 4, 13, 16, 2, 23, 7, 14]; // where each plug connects
 let firstPlugRow = "QWERTYUIOP"; // order of letters in the first row of plugs
 let secondPlugRow = "ASDFGHJKL"; // order of letters in the second row of plugs
 let thirdPlugRow = "ZXCVBNM"; // order of letters in the third row of plugs
-let selectedPlug = -1;
-
-function getPlug(char) {
-
-  return plugs[char];
-
-}
+let selectedPlug = 18;
 
 function getClickedPlug(x, y) {
 
@@ -597,6 +591,8 @@ function getClickedPlug(x, y) {
 }
 
 function drawPlugs() {
+
+  print(alphabet[selectedPlug],selectedPlug);
 
   // draw first row
   for (let index=0; index < firstPlugRow.length; index++) {
@@ -696,16 +692,33 @@ function drawPlugs() {
     }
   }
 
+  if (selectedPlug > -1) {
+
+    fill(0);
+    rect(mouseX - 25, mouseY - 50, 50, 100);
+
+  }
+
   // drawing the cables
   beginShape(LINES);
   for (let socket = 0; socket < 26; socket ++) {
 
-    if (plugs[socket] !== socket && plugs[socket] < socket) {
+    let socketLetter = alphabet[socket];
+    let plugLetter = alphabet[plugs[socket]];
 
-      let socketLetter = alphabet[socket];
-      let plugLetter = alphabet[plugs[socket]];
+    if (plugs[socket] === -1) {
 
-      print(socketLetter, plugLetter);
+      if (firstPlugRow.indexOf(socketLetter) > -1) {
+        vertex(width/20 + firstPlugRow.indexOf(socketLetter) * width/10, 230);
+      } else if (secondPlugRow.indexOf(socketLetter) > -1) {
+        vertex(width/10 + secondPlugRow.indexOf(socketLetter) * width/10, 390);
+      } else if (thirdPlugRow.indexOf(socketLetter) > -1) {
+        vertex(width/5 + thirdPlugRow.indexOf(socketLetter) * width/10, 550);
+      }
+
+      vertex(mouseX, mouseY + 50);
+
+    } else if (plugs[socket] !== socket && plugs[socket] < socket) {
 
       if (firstPlugRow.indexOf(socketLetter) > -1) {
         vertex(width/20 + firstPlugRow.indexOf(socketLetter) * width/10, 230);
@@ -825,13 +838,32 @@ function mouseClicked() {
 
     if (clickedPlug > -1) {
 
-      if (plugs[alphabet.indexOf(firstPlugRow[clickedPlug])] === alphabet.indexOf(firstPlugRow[clickedPlug])) {
+      if (plugs[alphabet.indexOf(firstPlugRow[clickedPlug])] !== alphabet.indexOf(firstPlugRow[clickedPlug])) {
 
-        if (selectedPlug > -1) {
+        let oldPlug = selectedPlug;
 
-          let oldPlug = selectedPlug;
-          selectedPlug = plugs[clickedPlug];
-          plugs[clickedPlug] = oldPlug;
+        if (selectedPlug !== clickedPlug) {
+
+          if (plugs[clickedPlug] === clickedPlug) {
+  
+            selectedPlug = -1;
+  
+          } else {
+  
+            selectedPlug = plugs[clickedPlug];
+  
+          }
+  
+          if (selectedPlug > -1) {
+  
+            plugs[clickedPlug] = oldPlug;
+  
+          } else {
+  
+            plugs[selectedPlug] = -1;
+  
+          }
+
         }
       }
     }

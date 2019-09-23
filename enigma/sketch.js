@@ -540,11 +540,11 @@ function getRectClicked(x, y) {
 // plugboard
 
 
-let plugs = [0, 15, 22, 17, 19, 5, 6, 24, 8, 11, 10, 9, 12, 20, 25, 1, 21, 3, -1, 4, 13, 16, 2, 23, 7, 14]; // where each plug connects
+let plugs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]; // where each plug connects
 let firstPlugRow = "QWERTYUIOP"; // order of letters in the first row of plugs
 let secondPlugRow = "ASDFGHJKL"; // order of letters in the second row of plugs
 let thirdPlugRow = "ZXCVBNM"; // order of letters in the third row of plugs
-let selectedPlug = 18;
+let selectedPlug = -1;
 
 function getClickedPlug(x, y) {
 
@@ -833,38 +833,32 @@ function mouseClicked() {
 
     }
 
+  // handling plug movement
   } else if (displayWindow === "plugBoard") {
     let clickedPlug = getClickedPlug(mouseX, mouseY);
 
+    print(clickedPlug, alphabet[clickedPlug], plugs[clickedPlug]);
+
     if (clickedPlug > -1) {
-
-      if (plugs[alphabet.indexOf(firstPlugRow[clickedPlug])] !== alphabet.indexOf(firstPlugRow[clickedPlug])) {
-
-        let oldPlug = selectedPlug;
-
-        if (selectedPlug !== clickedPlug) {
-
-          if (plugs[clickedPlug] === clickedPlug) {
-  
-            selectedPlug = -1;
-  
-          } else {
-  
-            selectedPlug = plugs[clickedPlug];
-  
-          }
-  
-          if (selectedPlug > -1) {
-  
-            plugs[clickedPlug] = oldPlug;
-  
-          } else {
-  
-            plugs[selectedPlug] = -1;
-  
-          }
-
+      if (selectedPlug === -1) {
+        if (plugs[clickedPlug] === clickedPlug) {
+          plugs[clickedPlug] = -1;
+          selectedPlug = clickedPlug;
+        } else {
+          plugs[plugs[clickedPlug]] = -1;
+          selectedPlug = plugs[clickedPlug];
+          plugs[clickedPlug] = clickedPlug;
         }
+      } else if (plugs[clickedPlug] === clickedPlug) {
+        plugs[clickedPlug] = selectedPlug;
+        plugs[selectedPlug] = clickedPlug
+        selectedPlug = -1;
+      } else {
+        let oldPlug = plugs[clickedPlug];
+        plugs[clickedPlug] = selectedPlug;
+        plugs[selectedPlug] = clickedPlug
+        selectedPlug = oldPlug;
+        plugs[oldPlug] = -1;
       }
     }
   }

@@ -750,7 +750,7 @@ function keyPressed() {
     
     moveRotors();
 
-    let letter = getPlug(alphabet.indexOf(key.toUpperCase()));
+    let letter = plugs[alphabet.indexOf(key.toUpperCase())];
 
     letter = getRotorEncryption(1, true, letter);
 
@@ -766,7 +766,7 @@ function keyPressed() {
 
     letter = getRotorEncryption(1, false, letter);
 
-    letter = getPlug(letter);
+    letter = plugs[letter];
 
     onLamp = alphabet[letter];
 

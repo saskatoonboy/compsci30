@@ -2,10 +2,12 @@
 // Eric James
 // Sept. Thurs. 12th 2019
 //
-// I used a function from the p5js website that i copied and pasted to draw a polygone
+// I used a function from the p5js website that i copied and pasted to draw a polygon
 //
 // Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// - The rotors that are being used are drawn using a custom shape (the unused one use copy and pasted code not mine)
+// - The window resizes properly
+// - The mouse wheel is used to turn the rotors
 
 let displayWindow = "lightBoard"; // controls when different things are displayed (lightBoard, plugBoard and rotors)
 let lampOffColour = [220, 220, 220]; // the colour of a lamp that is off

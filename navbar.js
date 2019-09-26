@@ -34,5 +34,5 @@ lineArtAnchor.addEventListener("mouseover", function(){
 // Project Anchors
 
 engimaAnchor.addEventListener("mouseover", function(){
-    setText("Enigma Machine \n Instructions: \nPlug board - Click on a socket to create a plug. Click on a plug to remove/place it on a socket./n Rotors - Click on a unused rotor to grab it then click in the position you want. Use the scroll wheel to turn the rotors. /n Light board - press a key on your keyboard to see what lamp lights up.");
+    setText("Enigma Machine <br> Instructions: \nPlug board - Click on a socket to create a plug. Click on a plug to remove/place it on a socket./n Rotors - Click on a unused rotor to grab it then click in the position you want. Use the scroll wheel to turn the rotors. /n Light board - press a key on your keyboard to see what lamp lights up.");
 });

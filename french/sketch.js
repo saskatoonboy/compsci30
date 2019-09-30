@@ -10,6 +10,7 @@ let drawCases = [[],[],[]]
 let page = 0;
 let caseCount = [5, 5];
 let ellipses = [];
+let control = "1";
 
 function preload() {
   binaryImg = loadImage('assets/binary.jfif');
@@ -55,6 +56,25 @@ function person() {
 
 }
 
+function
+
 function mouseClicked() {
-  person()
+  if (control === "1") {
+
+    person()
+
+  } else if (control === "2") {
+
+    addEllipse(mouseX, mouseY, 50, 75, 0);
+
+  }
+}
+
+function keyPressed() {
+  let options = ["1", "2"];
+  if (options.indexOf(key) > -1) {
+
+    control = key;
+
+  }
 }

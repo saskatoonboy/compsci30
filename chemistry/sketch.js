@@ -6,6 +6,11 @@
 // - describe what you did to take this project "above and beyond"
 
 let state = 0;
+let plantImg;
+
+function preload() {
+  plantImg = loadImage("assets/plant.png");
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -20,6 +25,9 @@ function draw() {
     textAlign(CENTER, CENTER);
     textSize(32)
     text("Play", width / 2, height / 2);
+  } else if (state === 1) {
+    imageMode(CENTER);
+    image(plantImg, width/2, height/2);
   }
 }
 

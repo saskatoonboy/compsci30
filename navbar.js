@@ -5,6 +5,7 @@ let projectNavBar = document.getElementById("projects_navbar");
 
 let rainbowCirclesAnchor = document.getElementById("rainbowCirclesAnchor");
 let lineArtAnchor = document.getElementById("lineArtAnchor");
+let imageProcessingAnchor = document.getElementById("imageProcessingAnchor");
 
 let engimaAnchor = document.getElementById("enigmaAnchor");
 
@@ -29,6 +30,10 @@ rainbowCirclesAnchor.addEventListener("mouseover", function(){
 
 lineArtAnchor.addEventListener("mouseover", function(){
     setText("Line Art Demo");
+});
+
+imageProcessingAnchor.addEventListener("mouseover", function(){
+    setText("Image Processing Demo");
 });
 
 // Project Anchors

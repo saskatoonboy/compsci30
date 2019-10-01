@@ -42,21 +42,26 @@ function windowResized() {
 function drawEllipses() {
   for (let ellipseIndex = 0; ellipseIndex < ellipses.length; ellipseIndex ++) {
     ellipseMode(CORNER);
+    angleMode(DEGREES);
     rotate(ellipses[ellipseIndex][4]);
+    fill(ellipses[ellipseIndex][5][0]);
     ellipse(ellipses[ellipseIndex][0], ellipses[ellipseIndex][1], ellipses[ellipseIndex][2], ellipses[ellipseIndex][3]);
+    rotate(360-ellipses[ellipseIndex][4]);
   }
 }
 
 function person() {
 
-  ellipses.push([200, 200, 50, 75, 0]);
-  ellipses.push([200, 200, 50, 75, 90]);
-  ellipses.push([200, 200, 50, 75, 180]);
-  ellipses.push([200, 200, 50, 75, 270]);
+  ellipses.push([mouseX, mouseY, 50, 75, 0, [0, 0, 0]]);
+  ellipses.push([mouseX, mouseY, 50, 75, 90, [50, 50, 50]]);
+  ellipses.push([mouseX, mouseY, 50, 75, 180, [100, 100, 100]]);
+  ellipses.push([mouseX, mouseY, 50, 75, 270, [150, 150 , 150]]);
 
 }
 
-function
+function addEllipse(x, y, w, h, r, c) {
+  ellipses.push([x, y, w, h, r, c]);
+}
 
 function mouseClicked() {
   if (control === "1") {
@@ -65,7 +70,7 @@ function mouseClicked() {
 
   } else if (control === "2") {
 
-    addEllipse(mouseX, mouseY, 50, 75, 0);
+    addEllipse(mouseX, mouseY, 50, 75, 0, [255, 255, 255]);
 
   }
 }

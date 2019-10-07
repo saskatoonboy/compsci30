@@ -1,4 +1,4 @@
-class Node {
+class Limb {
     constructor(x, y, f) {
       this.friction = f;
       this.currentFriction = 0;
@@ -38,9 +38,5 @@ class Node {
       strokeWeight(1);
       fill(this.red, this.green, this.blue);
       circle(this.pos.x, this.pos.y, nodeSize);
-    }
-  
-    add(vector) {
-      this.pos.add(vector);
     }
   }

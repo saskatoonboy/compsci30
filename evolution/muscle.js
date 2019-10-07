@@ -1,7 +1,7 @@
 class Muscle {
-    constructor(n1, n2, min, max, str, outTime, inTime) {
-      this.node1 = n1;
-      this.node2 = n2;
+    constructor(l1, l2, min, max, str, outTime, inTime) {
+      this.limb1 = l1;
+      this.limb2 = l2;
       this.min = min;
       this.max = max;
       this.strength = str*10;
@@ -10,28 +10,28 @@ class Muscle {
       this.extending = true;
       this.time = millis();
   
-      this.vector = createVector(this.node1.pos.x, this.node1.pos.y);
-      this.vector = this.vector.sub(this.node2.pos);
+      this.vector = createVector(this.limb1.pos.x, this.limb1.pos.y);
+      this.vector = this.vector.sub(this.limb2.pos);
   
       this.pushVector = createVector(this.vector.x, this.vector.y);
       this.pushVector.div(1000/this.strength);
   
-      this.normalVector = createVector(this.node1.pos.x, this.node1.pos.y);
+      this.normalVector = createVector(this.limb1.pos.x, this.limb1.pos.y);
       this.normalVector.normalize();
     }
   
     update() {
-      this.vector.set(this.node1.pos.x, this.node1.pos.y);
-      this.vector = this.vector.sub(this.node2.pos);
+      this.vector.set(this.limb1.pos.x, this.limb1.pos.y);
+      this.vector = this.vector.sub(this.limb2.pos);
   
       if (this.extending) {
         if (this.vector.mag() < this.max * meter) {
-          this.node1.pos.add(p5.Vector.mult(this.pushVector, this.node1.currentFriction));
-          this.node2.pos.sub(p5.Vector.mult(this.pushVector, this.node2.currentFriction));
+          this.limb1.pos.add(p5.Vector.mult(this.pushVector, this.limb1.currentFriction));
+          this.limb2.pos.sub(p5.Vector.mult(this.pushVector, this.limb2.currentFriction));
         } 
         if (this.vector.mag() > this.max * meter) {
-          this.node1.pos.sub(p5.Vector.mult(this.pushVector, this.node1.currentFriction));
-          this.node2.pos.add(p5.Vector.mult(this.pushVector, this.node2.currentFriction));
+          this.limb1.pos.sub(p5.Vector.mult(this.pushVector, this.limb1.currentFriction));
+          this.limb2.pos.add(p5.Vector.mult(this.pushVector, this.limb2.currentFriction));
         }
   
         if (millis() - this.time >= this.outTime/timeMultiplier) {
@@ -40,12 +40,12 @@ class Muscle {
         }
       } else {
         if (this.vector.mag() > this.min * meter) {
-          this.node1.pos.sub(p5.Vector.mult(this.pushVector, this.node1.currentFriction));
-          this.node2.pos.add(p5.Vector.mult(this.pushVector, this.node2.currentFriction));
+          this.limb1.pos.sub(p5.Vector.mult(this.pushVector, this.limb1.currentFriction));
+          this.limb2.pos.add(p5.Vector.mult(this.pushVector, this.limb2.currentFriction));
         } 
         if (this.vector.mag() < this.min * meter) {
-          this.node1.pos.add(p5.Vector.mult(this.pushVector, this.node1.currentFriction));
-          this.node2.pos.sub(p5.Vector.mult(this.pushVector, this.node2.currentFriction));
+          this.limb1.pos.add(p5.Vector.mult(this.pushVector, this.limb1.currentFriction));
+          this.limb2.pos.sub(p5.Vector.mult(this.pushVector, this.limb2.currentFriction));
         }
   
         if (millis() - this.time >= this.inTime/timeMultiplier) {
@@ -58,7 +58,7 @@ class Muscle {
     draw() {
       strokeWeight(MuscleWidth);
       stroke(150, 150, 150, this.strength * 5.1);
-      line(this.node1.pos.x, this.node1.pos.y, this.node2.pos.x, this.node2.pos.y);
+      line(this.limb1.pos.x, this.limb1.pos.y, this.limb2.pos.x, this.limb2.pos.y);
     }
   }
   

@@ -6,7 +6,7 @@
 // - describe what you did to take this project "above and beyond"
 
 const meter = 250;
-const nodeSize = 25;
+const limbSize = 25;
 const MuscleWidth = 10;
 let timeMultiplier = 1;
 let groundY;
@@ -36,7 +36,7 @@ function draw() {
       if (!creature.update()) {
         display++;
         if (display > 999) {
-          display = -1;
+          display = -2;
         }
       }
     }
@@ -45,6 +45,8 @@ function draw() {
   } else if (display === -1) {
     text("Multi: " + timeMultiplier, width - 200, 200);
   } else if (display === -2) {
+
+    print("Calculating...")
 
     creaturePos[0] = creatures[0].x;
 
@@ -66,6 +68,10 @@ function draw() {
         creaturePosIndex++;
       }
       creaturePos[creatureIndex] = creatures[creatureIndex].x;
+    }
+
+    for (let i = 0; i < creaturePos.length; i++) {
+      print(creaturePos[i]);
     }
   }
 }
@@ -95,12 +101,14 @@ function keyPressed() {
     timeMultiplier++;
   } else if (key === "s") {
     timeMultiplier--;
+  } else if (key === "i") {
+    timeMultiplier = 256;
   }
 
   if (display < -1) {
     display = 999;
   } else if (display > 999) {
-    display = -2;
+    display = -1;
   }
 
   if (timeMultiplier < 1) {

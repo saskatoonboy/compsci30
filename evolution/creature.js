@@ -1,69 +1,68 @@
 class Creature {
     constructor(genes) {
         if (genes === undefined) {
-            this.nodeCount = Math.floor(random(2, 6));
+            this.limbCount = Math.floor(random(2, 6));
             this.timeAlive = -1;
             this.timeStarted;
             this.running = false;
             this.x;
 
-            let muscleMax = ncr(this.nodeCount, 2);
+            let muscleMax = ncr(this.limbCount, 2);
             if (muscleMax > 9) {
                 muscleMax = 9;
             }
-            this.muscleCount = Math.floor(random(this.nodeCount - 1, muscleMax));
+            this.muscleCount = Math.floor(random(this.limbCount - 1, muscleMax));
 
-            this.nodes = [];
+            this.limbs = [];
             this.muscles = [];
 
             const xs = [50, 50, -50, -50, 0];
             const ys = [50, -50, 50, -50, 0];
 
-            for (let numNodes = 0; numNodes < this.nodeCount; numNodes++) {
+            for (let numLimbs = 0; numLimbs < this.limbCount; numLimbs++) {
 
-                this.nodes[numNodes] = new Node(xs[numNodes] + width / 2, ys[numNodes] + height / 2, Math.floor(random(0, 1.1) * 10) / 10);
-                if (numNodes > 0) {
+                this.limbs[numLimbs] = new Node(xs[numLimbs] + width / 2, ys[numLimbs] + height / 2, Math.floor(random(0, 1.1) * 10) / 10);
+                if (numLimbs > 0) {
                     const minLength = Math.floor(random(0.1, 1.1) * 10) / 10;
-                    this.muscles[numNodes - 1] = new Muscle(this.nodes[numNodes - 1], this.nodes[numNodes], minLength, Math.floor(random(minLength + 0.5, minLength + 1.1) * 10) / 10, random([1, 2, 3, 4, 5]), Math.floor(random(100, 1000)), Math.floor(random(100, 1000)));
+                    this.muscles[numLimbs - 1] = new Muscle(this.limbs[numLimbs - 1], this.limbs[numLimbs], minLength, Math.floor(random(minLength + 0.5, minLength + 1.1) * 10) / 10, random([1, 2, 3, 4, 5]), Math.floor(random(100, 1000)), Math.floor(random(100, 1000)));
                 }
 
             }
 
             for (let numMuscles = this.muscles.length; numMuscles < this.muscleCount; numMuscles++) {
-                const firstNode = this.nodes[Math.floor(random(0, this.nodes.length))];
+                const firstLimb = this.limbs[Math.floor(random(0, this.limbs.length))];
                 const minLength = Math.floor(random(0.1, 1.1) * 10) / 10;
 
-                let possibleNodes = [];
-                for (let i = 0; i < this.nodes.length; i++) {
-                    const node = this.nodes[i];
-                    if (node !== firstNode) {
+                let possibleLimbs = [];
+                for (let i = 0; i < this.limbs.length; i++) {
+                    const limb = this.limbs[i];
+                    if (limb !== firstLimb) {
                         for (let j = 0; j < this.muscles.length; j++) {
                             const muscle = this.muscles[j];
-                            if (!(muscle.node1 === firstNode && muscle.node2 === node) && !(muscle.node1 === node && muscle.node2 === firstNode)) {
-                                possibleNodes.push(node);
+                            if (!(muscle.limb1 === firstLimb && muscle.limb2 === limb) && !(muscle.limb1 === limb && muscle.limb2 === firstLimb)) {
+                                possibleLimbs.push(limb);
                             }
                         }
                     }
                 }
-                possibleNodes.splice(possibleNodes.indexOf(firstNode));
+                possibleLimbs.splice(possibleLimbs.indexOf(firstLimb));
 
-                const secondNode = random(possibleNodes);
+                const secondLimb = random(possibleLimbs);
 
-                this.muscles[numMuscles - 1] = new Muscle(firstNode, secondNode, minLength, Math.floor(random(minLength + 0.5, minLength + 1.1) * 10) / 10, random([1, 2, 3, 4, 5]), Math.floor(random(100, 1000)), Math.floor(random(100, 1000)));
+                this.muscles[numMuscles - 1] = new Muscle(firstLimb, secondLimb, minLength, Math.floor(random(minLength + 0.5, minLength + 1.1) * 10) / 10, random([1, 2, 3, 4, 5]), Math.floor(random(100, 1000)), Math.floor(random(100, 1000)));
             }
         } else {
 
         }
         let totalX = 0;
-        for (let i = 0; i < this.nodes.length; i++) {
-            totalX += this.nodes[i].pos.x;
+        for (let i = 0; i < this.limbs.length; i++) {
+            totalX += this.limbs[i].pos.x;
         }
-        this.x = (totalX / this.nodes.length) - width / 2;
+        this.x = (totalX / this.limbs.length) - width / 2;
     }
 
     displayStats() {
         fill(0);
-        print("hi");
         textSize(32);
         textAlign(LEFT, CENTER);
         text("MM ID: " + creatures.indexOf(this), width-200, 50);
@@ -87,18 +86,18 @@ class Creature {
                 this.muscles[index].update();
             }
     
-            for (let index = 0; index < this.nodes.length; index++) {
-                let node = this.nodes[index];
+            for (let index = 0; index < this.limbs.length; index++) {
+                let limb = this.limbs[index];
     
-                node.applyForce(createVector(0, 0.05));
-                node.update();
+                limb.applyForce(createVector(0, 0.05));
+                limb.update();
             }
     
             let totalX = 0;
-            for (let i = 0; i < this.nodes.length; i++) {
-                totalX += this.nodes[i].pos.x;
+            for (let i = 0; i < this.limbs.length; i++) {
+                totalX += this.limbs[i].pos.x;
             }
-            this.x = (totalX / this.nodes.length) - width / 2;
+            this.x = (totalX / this.limbs.length) - width / 2;
         }
 
         return true;
@@ -109,8 +108,8 @@ class Creature {
             this.muscles[index].draw();
         }
 
-        for (let index = 0; index < this.nodes.length; index++) {
-            this.nodes[index].draw();
+        for (let index = 0; index < this.limbs.length; index++) {
+            this.limbs[index].draw();
         }
     }
 
@@ -121,7 +120,7 @@ class Creature {
     }
 
     getGenes() {
-        let genes = [this.nodeCount, this.muscleCount, this.nodes, this.muscles];
+        let genes = [this.limbCount, this.muscleCount, this.limbs, this.muscles];
         return genes;
     }
 }

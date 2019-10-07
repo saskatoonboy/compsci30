@@ -21,7 +21,7 @@ class Creature {
 
             for (let numLimbs = 0; numLimbs < this.limbCount; numLimbs++) {
 
-                this.limbs[numLimbs] = new Node(xs[numLimbs] + width / 2, ys[numLimbs] + height / 2, Math.floor(random(0, 1.1) * 10) / 10);
+                this.limbs[numLimbs] = new Limb(xs[numLimbs] + width / 2, ys[numLimbs] + height / 2, Math.floor(random(0, 1.1) * 10) / 10);
                 if (numLimbs > 0) {
                     const minLength = Math.floor(random(0.1, 1.1) * 10) / 10;
                     this.muscles[numLimbs - 1] = new Muscle(this.limbs[numLimbs - 1], this.limbs[numLimbs], minLength, Math.floor(random(minLength + 0.5, minLength + 1.1) * 10) / 10, random([1, 2, 3, 4, 5]), Math.floor(random(100, 1000)), Math.floor(random(100, 1000)));

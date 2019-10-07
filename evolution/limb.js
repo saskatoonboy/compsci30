@@ -37,6 +37,6 @@ class Limb {
       stroke(0);
       strokeWeight(1);
       fill(this.red, this.green, this.blue);
-      circle(this.pos.x, this.pos.y, nodeSize);
+      circle(this.pos.x, this.pos.y, limbSize);
     }
   }

@@ -6,6 +6,7 @@ let projectNavBar = document.getElementById("projects_navbar");
 let rainbowCirclesAnchor = document.getElementById("rainbowCirclesAnchor");
 let lineArtAnchor = document.getElementById("lineArtAnchor");
 let imageProcessingAnchor = document.getElementById("imageProcessingAnchor");
+let cannonAnchor = document.getElementById("cannonAnchor");
 
 let engimaAnchor = document.getElementById("enigmaAnchor");
 let evolutionAnchor = document.getElementById("evolutionAnchor");
@@ -35,6 +36,10 @@ lineArtAnchor.addEventListener("mouseover", function(){
 
 imageProcessingAnchor.addEventListener("mouseover", function(){
     setText("Image Processing Demo");
+});
+
+cannonAnchor.addEventListener("mouseover", function(){
+    setText("Translation and Rotation demo");
 });
 
 // Project Anchors

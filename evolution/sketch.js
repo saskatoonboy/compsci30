@@ -43,36 +43,45 @@ function draw() {
     creature.draw();
     creature.displayStats();
   } else if (display === -1) {
+    fill(0, 255, 0);
+    rect(width/2-width/10, height/2 - height/20, width/5, height/10);
+
+    fill(0);
+    textSize(32);
+    textAlign(CENTER, CENTER)
+    text("Start", width/2, height/2);
+
+    textSize(12);
     text("Multi: " + timeMultiplier, width - 200, 200);
   } else if (display === -2) {
 
     print("Calculating...")
 
-    creaturePos[0] = creatures[0].x;
-
-    if (creatures[1].x > creaturePos[0]) {
-      creaturePos[1] = creaturePos[0];
-      creaturePos[0] = creatures[1].x;
+    for (let i = 0; i < creatures.length; i ++) {
+      creaturePos[i] = creatures[i].x;
     }
 
-    for (let creatureIndex = 2; creatureIndex < creatures.length; creatureIndex++) {
-      let shiftIndex = -1;
-      let creaturePosIndex = 0
-      while (shiftIndex === -1) {
-        if (creatures[creatureIndex].x > creaturePos[creaturePosIndex]) {
-          shiftIndex = creaturePosIndex;
-        }
-        if (creaturePosIndex === creaturePos.length - 1) {
-          shiftIndex = creaturePos.length;
-        }
-        creaturePosIndex++;
-      }
-      creaturePos[creatureIndex] = creatures[creatureIndex].x;
-    }
+    creaturePos.sort(function() {return-1});
+    //if (creatures[1].x > creaturePos[0]) {
+      //creaturePos[1] = creaturePos[0];
+      //creaturePos[0] = creatures[1].x;
+    //}
 
-    for (let i = 0; i < creaturePos.length; i++) {
-      print(creaturePos[i]);
-    }
+    //for (let creatureIndex = 2; creatureIndex < creatures.length; creatureIndex++) {
+      //let i = 0;
+      //while (i < creaturePos.length) {
+        //if ([creaturePos[i] < creatures[creatureIndex].x]) {
+          //i = creaturePos.length;
+        //} else {
+          //myArray.sort(function() {return-1});
+          //i++;
+        //}
+      //}
+    //}
+
+    print(creaturePos);
+
+    display = -1;
   }
 }
 
@@ -102,7 +111,7 @@ function keyPressed() {
   } else if (key === "s") {
     timeMultiplier--;
   } else if (key === "i") {
-    timeMultiplier = 256;
+    timeMultiplier = 1024;
   }
 
   if (display < -1) {
@@ -113,6 +122,12 @@ function keyPressed() {
 
   if (timeMultiplier < 1) {
     timeMultiplier = 1;
+  }
+}
+
+function mouseClicked() {
+  if (mouseX > width/2-width/10 && mouseX < width/2+width/10 && mouseY > height/2-height/20 && mouseY > height/2-height/20) {
+    display = 0;
   }
 }
 

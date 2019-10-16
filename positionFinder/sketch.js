@@ -5,77 +5,80 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-let cannon;
-let bullets = [];
+let classifier;
+let mobilenet;
+let value = 0;
+let video;
+let slider;
+let addButton;
+let trainButton;
+let fishImg;
+
+function modelReady() {
+  console.log("Model Ready!");
+  //mobilenet.predict(gotResults);
+}
+
+function videoReady() {
+  console.log("Video Ready!");
+}
+
+function getLoss(loss) {
+  console.log(loss);
+  if (loss === null) {
+    classifier.classify(gotResults);
+  }
+}
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  cannon = new Cannon();
+  createCanvas(windowWidth/2, windowHeight/2+50);
+
+  // fishImg = createImg("assets/fish.jpeg");
+  // fishImg.hide();
+
+  video = createCapture(VIDEO);
+  video.hide();
+
+  mobilenet = ml5.featureExtractor("MobileNet", modelReady);
+  classifier = mobilenet.classification(video, videoReady);
+
+  // slider = createSlider(0, 1, 0.5, 0.01);
+
+  addButton = createButton("Add Example");
+  addButton.mousePressed(function() {
+    classifier.addImage("phone")
+  });
+
+  trainButton = createButton("Train");
+  trainButton.mousePressed(function() {
+    classifier.train(getLoss);
+  });
+
+  // classifier.classify(video, gotResults);
 }
 
 function draw() {
-  background(220);
-  cannon.display();
-  updateBullets();
-}
-
-function mouseClicked() {
-  cannon.fire();
+  background(0);
+  displayVideo();
 }
 
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
+  resizeCanvas(windowWidth/2, windowHeight/2+50);
 }
 
-function updateBullets() {
-  for (let thisBullet of bullets) {
-    thisBullet.display();
-  }
+function displayVideo() {
+  image(video, 0, 0, width, height-50);
+  fill(255);
+  textSize(24);
+  text(value, 0, height);
 }
 
-class Cannon {
-
-  constructor() {
-    this.x = 75;
-    this.y = height-150;
-    this.width = 50;
-    this.length = 125;
-    this.angle = 0;
+function gotResults(error, result) {
+  if (error) {
+    console.log(error);
+  } else {
+    // console.log(result);
+    value = result[0].label;
   }
-
-  display() {
-    push(); // save the transmormation matrix
-    translate(this.x, this.y);
-    fill(0);
-
-    this.angle = atan2(mouseY - this.y, mouseX - this.x);
-
-    rotate(this.angle);
-    rect(0, 0-this.width/2, this.length, this.width);
-    pop(); // load saved transmormation matrix
-  }
-
-  fire() {
-    let thisBullet = new Bullet(cannon.x, cannon.y, cannon.width, cannon.angle, 25);
-
-    bullets.push(thisBullet);
-  }
-}
-
-class Bullet {
-
-  constructor(x, y, d, a, speed) {
-    this.x = x;
-    this.y = y;
-    this.d = d;
-    this.a = a;
-    this.speed = speed;
-  }
-
-  display() {
-    fill(255, 0, 0);
-    this.x += this.speed * cos(this.a);
-    this.y += this.speed * sin(this.a);
-    circle(this.x, this.y, this.d);
-  }
+  classifier.classify(gotResults);
 }

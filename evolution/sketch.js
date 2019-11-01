@@ -2,6 +2,8 @@
 // Eric James
 // Oct. Wed. 2nd 2019
 //
+// display is my state variable
+//
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
@@ -10,6 +12,9 @@ const limbSize = 25;
 const MuscleWidth = 10;
 let timeMultiplier = 1;
 let groundY;
+// if postitive the it is the id of the creature being displayed
+// if -1 then main screen
+// if -2 then WIP
 let display = -1;
 let creatures = [];
 let creaturePos = [];

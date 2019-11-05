@@ -7,23 +7,51 @@
 
 let grid;
 let bombsUnFlagged;
-let bombChance = 0.05;
+let bombChance = 0.1;
+let playing = true;
 
 function setup() {
   createCanvas(windowWidth, windowHeight)
+
+  grid = new Grid(25, 25);
+  bombsUnFlagged = grid.totalBombs;
 }
 
 
 function draw() {
-
+  if (playing) {
+    grid.display();
+  }
 }
 
-function mouseClicked() {
-
+function mousePressed() {
+  if (playing) {
+    let clickedCell = grid.getCell(mouseX, mouseY);
+    if (clickedCell !== undefined) {
+      if (mouseButton === LEFT) {
+        if (!clickedCell.isFlagged()) {
+          if (clickedCell.clearCell()) {
+          } else {
+            endGame();
+          }
+        }
+      } else if (mouseButton === RIGHT) {
+        if (!clickedCell.isClear()) {
+          clickedCell.toggleFlag();
+        }
+      }
+  
+      return false;
+    }
+  
+    return true;
+  }
 }
 
 class Cell {
-  constructor(isBomb) {
+  constructor(isBomb, x, y) {
+    this.x = x;
+    this.y = y;
     this.bomb = isBomb;
     this.flag = false;
     this.clear = false;
@@ -58,16 +86,30 @@ class Cell {
     this.value = value;
   }
 
-  clear() {
-    this.clear = true;
+  clearCell() {
+    this.clear = true;            
+    if (this.getValue() === 0) {
+      for (let xOffset = -1; xOffset < 2; xOffset++) {
+        for (let yOffset = -1; yOffset < 2; yOffset++) {
+          if (this.x - xOffset >= 0 && this.y - yOffset >= 0 && this.x - xOffset < grid.columns && this.y - yOffset < grid.rows) {
+            let sideCell = grid.table[this.x + xOffset][this.y + yOffset];
+            if (sideCell.getValue() === 0) {
+              sideCell.clearCell();
+            }
+          }
+        }
+      }
+    }
     return !this.bomb;
   }
 }
 
 class Grid {
   constructor(rows, columns) {
+    this.colours = [[220, 220, 220], [255, 0, 0], [255, 255, 0], [150, 255, 0], [0, 255, 0], [0, 0, 255], [255, 0, 255], [252, 3, 161]]
     this.rows = rows;
     this.columns = columns;
+    this.totalBombs = 0;
     if (width < height) {
       this.cellSize = width/columns;
     } else {
@@ -81,11 +123,35 @@ class Grid {
         let isBomb;
         if (random(0,1) < bombChance) {
           isBomb = true;
+          this.totalBombs ++;
         } else {
           isBomb = false;
         }
 
-        this.table[x].push(new Cell(isBomb));
+        this.table[x].push(new Cell(isBomb, x, y));
+      }
+    }
+
+    for (let x = 0; x < this.columns; x++) {
+      for (let y = 0; y < this.rows; y++) {
+        let cell = this.table[x][y];
+
+        let value = 0;
+
+        if (cell.value > -1) {
+          for (let xOffset = -1; xOffset < 2; xOffset++) {
+            for (let yOffset = -1; yOffset < 2; yOffset++) {
+              if (x - xOffset >= 0 && y - yOffset >= 0 && x - xOffset < this.columns && y - yOffset < this.rows) {
+                print(this.table[x - xOffset][y - yOffset], x - xOffset, y - yOffset);
+                if (this.table[x - xOffset][y - yOffset].isBomb()) {
+                  value ++;
+                }
+              }
+            }
+          }
+        }
+
+        cell.setValue(value);
       }
     }
   }
@@ -95,13 +161,30 @@ class Grid {
       for (let y = 0; y < this.rows; y++) {
         let cell = this.table[x][y];
         if (cell.isClear()) {
-
+          fill(220);
         } else {
           if (cell.isFlagged()) {
-            
+            fill(0, 255, 0);
+          } else {
+            fill(255);
           }
         }
+
+        rect(x*this.cellSize, y*this.cellSize, this.cellSize, this.cellSize);
+        let value = cell.getValue();
+
+        if (value > -1 && cell.isClear()) {
+          fill(this.colours[value][0], this.colours[value][1], this.colours[value][2]);
+          textSize(24);
+          text(value, x*this.cellSize+this.cellSize*0.25, y*this.cellSize + this.cellSize * 0.90);
+        }
       }
+    }
+  }
+
+  getCell(x, y) {
+    if (x <= this.cellSize*this.columns && y <= this.cellSize*this.rows) {
+      return this.table[floor(x/this.cellSize)][floor(y/this.cellSize)];
     }
   }
 }

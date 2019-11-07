@@ -9,16 +9,27 @@ let grid;
 let bombsUnFlagged;
 let bombChance = 0.1;
 let playing = true;
+let toClear = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight)
+
+  document.addEventListener("contextmenu", event => event.preventDefault());
 
   grid = new Grid(25, 25);
   bombsUnFlagged = grid.totalBombs;
 }
 
+function clearCells() {
+  for (cell of toClear) {
+    cell.clearCell();
+  }
+  toClear = [];
+}
 
 function draw() {
+  background(255);
+  clearCells();
   if (playing) {
     grid.display();
   }
@@ -30,8 +41,7 @@ function mousePressed() {
     if (clickedCell !== undefined) {
       if (mouseButton === LEFT) {
         if (!clickedCell.isFlagged()) {
-          if (clickedCell.clearCell()) {
-          } else {
+          if (!clickedCell.clearCell()) {
             endGame();
           }
         }
@@ -46,6 +56,10 @@ function mousePressed() {
   
     return true;
   }
+}
+
+function endGame() {
+  playing = false;
 }
 
 class Cell {
@@ -92,9 +106,9 @@ class Cell {
       for (let xOffset = -1; xOffset < 2; xOffset++) {
         for (let yOffset = -1; yOffset < 2; yOffset++) {
           if (this.x - xOffset >= 0 && this.y - yOffset >= 0 && this.x - xOffset < grid.columns && this.y - yOffset < grid.rows) {
-            let sideCell = grid.table[this.x + xOffset][this.y + yOffset];
-            if (sideCell.getValue() === 0) {
-              sideCell.clearCell();
+            let sideCell = grid.table[this.x - xOffset][this.y - yOffset];
+            if (!sideCell.isClear()) {
+              toClear.push(sideCell);
             }
           }
         }
@@ -106,7 +120,7 @@ class Cell {
 
 class Grid {
   constructor(rows, columns) {
-    this.colours = [[220, 220, 220], [255, 0, 0], [255, 255, 0], [150, 255, 0], [0, 255, 0], [0, 0, 255], [255, 0, 255], [252, 3, 161]]
+    this.colours = [[200, 200, 200], [255, 0, 0], [255, 255, 0], [150, 255, 0], [0, 255, 0], [0, 0, 255], [255, 0, 255], [252, 3, 161]]
     this.rows = rows;
     this.columns = columns;
     this.totalBombs = 0;
@@ -142,7 +156,6 @@ class Grid {
           for (let xOffset = -1; xOffset < 2; xOffset++) {
             for (let yOffset = -1; yOffset < 2; yOffset++) {
               if (x - xOffset >= 0 && y - yOffset >= 0 && x - xOffset < this.columns && y - yOffset < this.rows) {
-                print(this.table[x - xOffset][y - yOffset], x - xOffset, y - yOffset);
                 if (this.table[x - xOffset][y - yOffset].isBomb()) {
                   value ++;
                 }
@@ -160,8 +173,9 @@ class Grid {
     for (let x = 0; x < this.columns; x++) {
       for (let y = 0; y < this.rows; y++) {
         let cell = this.table[x][y];
+        
         if (cell.isClear()) {
-          fill(220);
+          fill(200);
         } else {
           if (cell.isFlagged()) {
             fill(0, 255, 0);

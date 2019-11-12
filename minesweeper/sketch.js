@@ -94,6 +94,11 @@ class Cell {
 
   toggleFlag() {
     this.flag = !this.flag;
+    if (this.isBomb()) {
+      if (this.isFlagged()) {
+        
+      }
+    }
   }
 
   setValue(value) {

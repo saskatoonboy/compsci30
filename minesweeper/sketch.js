@@ -6,10 +6,12 @@
 // - describe what you did to take this project "above and beyond"
 
 let grid;
-let bombsUnFlagged;
-let bombChance = 0.1;
+let bombsUnFlagged = 30;
+let bombChance = 0.05;
 let playing = true;
 let toClear = [];
+let won = false;
+let maxBombs = 30;
 
 function setup() {
   createCanvas(windowWidth, windowHeight)
@@ -28,10 +30,21 @@ function clearCells() {
 }
 
 function draw() {
+  print(bombsUnFlagged);
   background(255);
   clearCells();
   if (playing) {
     grid.display();
+  } else if (won) {
+    textSize(32);
+    textAlign(CENTER, CENTER);
+    fill(0);
+    text("You Win", width/2, height/2);
+  } else {
+    textSize(32);
+    textAlign(CENTER, CENTER);
+    fill(0);
+    text("You Lost", width/2, height/2);
   }
 }
 
@@ -42,12 +55,15 @@ function mousePressed() {
       if (mouseButton === LEFT) {
         if (!clickedCell.isFlagged()) {
           if (!clickedCell.clearCell()) {
-            endGame();
+            loseGame();
           }
         }
       } else if (mouseButton === RIGHT) {
         if (!clickedCell.isClear()) {
           clickedCell.toggleFlag();
+          if (bombsUnFlagged < 1) {
+            winGame();
+          }
         }
       }
   
@@ -58,8 +74,13 @@ function mousePressed() {
   }
 }
 
-function endGame() {
+function loseGame() {
   playing = false;
+}
+
+function winGame() {
+  playing = false;
+  won = true;
 }
 
 class Cell {
@@ -96,7 +117,9 @@ class Cell {
     this.flag = !this.flag;
     if (this.isBomb()) {
       if (this.isFlagged()) {
-        
+        bombsUnFlagged --;
+      } else {
+        bombsUnFlagged ++;
       }
     }
   }
@@ -139,18 +162,20 @@ class Grid {
     for (let x = 0; x < columns; x++) {
       this.table.push([]);
       for (let y = 0; y < rows; y++) {
-        let isBomb;
-        if (random(0,1) < bombChance) {
-          isBomb = true;
-          this.totalBombs ++;
-        } else {
-          isBomb = false;
-        }
-
-        this.table[x].push(new Cell(isBomb, x, y));
+        this.table[x].push(new Cell(false, x, y));
       }
     }
 
+    for (let bombCount = 0; bombCount < maxBombs; bombCount++) {
+      let x = floor(random(0, this.columns));
+      let y = floor(random(0, this.rows));
+      if (!this.table[x][y].isBomb()) {
+        this.totalBombs++;
+      }
+      this.table[x][y].bomb = true;
+      this.table[x][y].value = -1;
+    }
+    
     for (let x = 0; x < this.columns; x++) {
       for (let y = 0; y < this.rows; y++) {
         let cell = this.table[x][y];

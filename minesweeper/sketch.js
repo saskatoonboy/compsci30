@@ -6,12 +6,12 @@
 // - describe what you did to take this project "above and beyond"
 
 let grid;
-let bombsUnFlagged = 30;
+let bombsUnFlagged;
 let bombChance = 0.05;
 let playing = true;
 let toClear = [];
 let won = false;
-let maxBombs = 30;
+let maxBombs = 50;
 
 function setup() {
   createCanvas(windowWidth, windowHeight)

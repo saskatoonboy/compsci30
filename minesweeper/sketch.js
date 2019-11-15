@@ -1,9 +1,11 @@
-// First Project
+// Mine Sweeper
 // Eric James
-// Sept. Thrus. 5th 2019
+// Nov. Fri. 15th 2019
+//
+// Classic minesweeper game
 //
 // Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// - I used classes
 
 let grid;
 let bombsUnFlagged;

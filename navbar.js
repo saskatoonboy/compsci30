@@ -10,6 +10,7 @@ let cannonAnchor = document.getElementById("cannonAnchor");
 
 let engimaAnchor = document.getElementById("enigmaAnchor");
 let evolutionAnchor = document.getElementById("evolutionAnchor");
+let minesweeperAnchor = document.getElementById("minesweeperAnchor");
 
 function setText(msg)
 {
@@ -50,4 +51,8 @@ engimaAnchor.addEventListener("mouseover", function(){
 
 evolutionAnchor.addEventListener("mouseover", function(){
     setText("Evolution Simulator");
+});
+
+minesweeperAnchor.addEventListener("mouseover", function(){
+    setText("Minesweeper Game");
 });
